@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SportCV — Plataforma Nacional de Gestão Desportiva de Cabo Verde: atletas, clubes, federações, competições, licenças e transferências.">
+<meta name="theme-color" content="#090d16">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏅</text></svg>">
+<title>SportCV — Plataforma Nacional de Gestão Desportiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#090d16;--sf:#101827;--sf2:#16202f;--sf3:#1c2a3e;--bd:#1e3050;--bd2:#253a58;--ac:#00c8ff;--acd:rgba(0,200,255,0.1);--gd:#ffc533;--gdd:rgba(255,197,51,0.1);--rd:#ff3b5c;--rdd:rgba(255,59,92,0.1);--gn:#00d97e;--gnd:rgba(0,217,126,0.1);--pu:#a78bfa;--pud:rgba(167,139,250,0.1);--tx:#dde6f5;--mt:#7a92b3;--mt2:#4a6080}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
+
+/* SIDEBAR */
+.sb{position:fixed;top:0;left:0;width:248px;height:100vh;background:linear-gradient(180deg,#0c1623,#090d16);border-right:1px solid var(--bd);display:flex;flex-direction:column;z-index:100;overflow-y:auto}
+.sb-logo{padding:22px 20px 16px;border-bottom:1px solid var(--bd)}
+.logo-row{display:flex;align-items:center;gap:10px}
+.logo-ic{width:34px;height:34px;background:linear-gradient(135deg,var(--ac),#0081a7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.logo-t{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:3px;color:#fff}
+.logo-t span{color:var(--gd)}
+.logo-sub{font-family:'Barlow Condensed',sans-serif;font-size:9.5px;color:var(--mt);letter-spacing:2px;text-transform:uppercase;margin-top:5px}
+.flag{display:flex;gap:3px;margin-top:8px}
+.flag div{height:3px;border-radius:2px}
+.sb-nav{flex:1;padding:12px 0}
+.ng-lbl{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mt2);padding:10px 20px 4px}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;transition:all .15s;border-left:3px solid transparent;font-size:13px;color:var(--mt);user-select:none}
+.ni:hover{color:var(--tx);background:rgba(0,200,255,0.04)}
+.ni.active{color:var(--ac);border-left-color:var(--ac);background:var(--acd)}
+.ni .ic{font-size:14px;width:17px;text-align:center;flex-shrink:0}
+.np{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px}
+.np-b{background:var(--acd);color:var(--ac)}
+.np-r{background:var(--rdd);color:var(--rd)}
+.np-g{background:var(--gdd);color:var(--gd)}
+.sb-user{padding:12px 20px;border-top:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.ua{width:32px;height:32px;background:linear-gradient(135deg,var(--ac),#006fa7);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;color:#fff;flex-shrink:0}
+.u-role{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gd);font-weight:600}
+.u-name{font-size:12px;font-weight:600}
+.u-org{font-size:11px;color:var(--mt)}
+
+/* MAIN */
+.main{margin-left:248px;min-height:100vh}
+.topbar{height:56px;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 26px;gap:14px;position:sticky;top:0;z-index:50}
+.tb-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:600;letter-spacing:1px;flex:1}
+.live{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--gn)}
+.ldot{width:6px;height:6px;border-radius:50%;background:var(--gn);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.sbox{display:flex;align-items:center;gap:7px;background:var(--sf2);border:1px solid var(--bd);border-radius:7px;padding:7px 13px;width:230px}
+.sbox input{background:none;border:none;outline:none;color:var(--tx);font-size:13px;font-family:'Barlow',sans-serif;width:100%}
+.sbox input::placeholder{color:var(--mt2)}
+.content{padding:26px 26px 60px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:7px;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.7px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-p{background:var(--ac);color:#05111d}.btn-p:hover{opacity:.85;transform:translateY(-1px)}
+.btn-s{background:var(--gd);color:#1a1000}.btn-s:hover{opacity:.85}
+.btn-g{background:var(--sf2);color:var(--tx);border:1px solid var(--bd)}.btn-g:hover{border-color:var(--ac);color:var(--ac)}
+.btn-d{background:var(--rdd);color:var(--rd);border:1px solid rgba(255,59,92,.25)}.btn-d:hover{background:var(--rd);color:#fff}
+.btn-sm{padding:5px 11px;font-size:11px}
+.btn-xs{padding:4px 9px;font-size:10.5px}
+
+/* PAGE */
+.page{display:none}
+.page.active{display:block;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* PAGE HEADER */
+.ph{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
+.ph-t{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;line-height:1}
+.ph-s{font-size:13px;color:var(--mt);margin-top:3px}
+.ph-ac{display:flex;gap:9px}
+
+/* STATS */
+.sg{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:22px}
+.sc{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:17px 18px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s;cursor:default}
+.sc:hover{transform:translateY(-2px);border-color:var(--bd2)}
+.sc::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px}
+.sc-b::after{background:var(--ac)}.sc-g::after{background:var(--gd)}.sc-r::after{background:var(--rd)}.sc-n::after{background:var(--gn)}.sc-p::after{background:var(--pu)}
+.sc-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mt)}
+.sc-num{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:1px;line-height:1;margin:5px 0 3px}
+.sc-b .sc-num{color:var(--ac)}.sc-g .sc-num{color:var(--gd)}.sc-r .sc-num{color:var(--rd)}.sc-n .sc-num{color:var(--gn)}.sc-p .sc-num{color:var(--pu)}
+.sc-d{font-size:11px;color:var(--mt)}
+.sc-d b{color:var(--gn)}
+
+/* GRIDS */
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+
+/* PANEL */
+.panel{background:var(--sf);border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.phd{padding:13px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.ptitle{font-family:'Barlow Condensed',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.plnk{font-size:12px;color:var(--ac);cursor:pointer;font-family:'Barlow Condensed',sans-serif}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mt);padding:9px 16px;text-align:left;border-bottom:1px solid var(--bd);font-weight:600}
+.tbl td{padding:11px 16px;font-size:13px;border-bottom:1px solid rgba(30,48,80,.4);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr{transition:background .12s;cursor:pointer}
+.tbl tbody tr:hover{background:rgba(255,255,255,.02)}
+.cp{display:flex;align-items:center;gap:10px}
+.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;flex-shrink:0}
+.av-sq{border-radius:7px!important}
+.pn{font-weight:600;font-size:13px}
+.pid{font-size:11px;color:var(--mt);font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px}
+.ar{display:flex;gap:5px}
+
+/* BADGES */
+.bdg{display:inline-flex;align-items:center;padding:3px 8px;border-radius:5px;font-family:'Barlow Condensed',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.b-a{background:var(--gnd);color:var(--gn)}
+.b-p{background:var(--gdd);color:var(--gd)}
+.b-t{background:var(--acd);color:var(--ac)}
+.b-s{background:var(--rdd);color:var(--rd)}
+.b-n{background:var(--pud);color:var(--pu)}
+.b-r{background:rgba(0,200,255,.06);color:#60b4d8}
+.b-c{background:var(--sf3);color:var(--mt)}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:20px}
+.tab{padding:9px 18px;font-family:'Barlow Condensed',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;color:var(--mt);border-bottom:2px solid transparent;transition:all .15s;margin-bottom:-1px}
+.tab:hover{color:var(--tx)}
+.tab.active{color:var(--ac);border-bottom-color:var(--ac)}
+
+/* ACTIVITY */
+.ai{display:flex;gap:11px;align-items:flex-start;padding:11px 18px;border-bottom:1px solid rgba(30,48,80,.4)}
+.ai:last-child{border-bottom:none}
+.adot{width:7px;height:7px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.at{font-size:13px;line-height:1.5}
+.atime{font-size:11px;color:var(--mt);font-family:'Barlow Condensed',sans-serif;margin-top:1px}
+
+/* COMPETITION CARDS */
+.ccard{background:var(--sf);border:1px solid var(--bd);border-radius:10px;overflow:hidden;transition:border-color .2s,transform .2s}
+.ccard:hover{border-color:var(--bd2);transform:translateY(-2px)}
+.ccard-top{padding:15px 16px;display:flex;align-items:center;gap:13px}
+.ccard-ic{width:42px;height:42px;border-radius:9px;background:var(--acd);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ccard-n{font-weight:600;font-size:14px}
+.ccard-m{font-size:12px;color:var(--mt);margin-top:2px}
+.ccard-ft{padding:9px 16px;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:var(--sf2)}
+.ccard-st{font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--mt)}
+.ccard-st b{color:var(--tx)}
+.ccard-ac{display:flex;gap:6px}
+
+/* TRANSFER ITEM */
+.tri{display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid rgba(30,48,80,.4);transition:background .12s;cursor:pointer}
+.tri:last-child{border-bottom:none}
+.tri:hover{background:rgba(255,255,255,.02)}
+.tr-route{font-size:12px;color:var(--mt);display:flex;align-items:center;gap:5px;margin-top:2px}
+.tr-arrow{color:var(--ac)}
+.tr-type{font-family:'Barlow Condensed',sans-serif;font-size:10px;color:var(--mt);text-transform:uppercase;letter-spacing:1px}
+
+/* MODAL */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(5px);padding:20px}
+.ov.open{display:flex}
+.modal{background:var(--sf);border:1px solid var(--bd2);border-radius:13px;width:680px;max-height:88vh;overflow-y:auto;animation:slUp .25s ease;position:relative}
+.modal-lg{width:780px}
+@keyframes slUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.mhd{padding:18px 24px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--sf);z-index:10}
+.mt2{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.mcl{background:none;border:none;color:var(--mt);font-size:19px;cursor:pointer;padding:4px 8px;border-radius:5px;transition:all .15s}
+.mcl:hover{color:var(--tx);background:var(--sf2)}
+.mb{padding:20px 24px}
+.mft{padding:14px 24px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:9px;position:sticky;bottom:0;background:var(--sf)}
+
+/* FORM */
+.fs{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ac);padding-bottom:6px;border-bottom:1px solid var(--bd);margin-bottom:13px;margin-top:18px}
+.fs:first-child{margin-top:0}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:13px}
+.fr1{grid-template-columns:1fr}.fr3{grid-template-columns:1fr 1fr 1fr}.fr13{grid-template-columns:1fr 3fr}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mt);font-weight:600}
+.fi{background:var(--sf2);border:1px solid var(--bd);border-radius:7px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--tx);outline:none;transition:border-color .15s;width:100%}
+.fi:focus{border-color:var(--ac)}
+.fi::placeholder{color:var(--mt2)}
+select.fi option{background:var(--sf2)}
+textarea.fi{resize:vertical;min-height:68px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{padding:5px 11px;border-radius:5px;border:1px solid var(--bd);background:var(--sf2);font-size:12px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;transition:all .15s}
+.chip:hover{border-color:var(--ac)}
+.chip.on{border-color:var(--ac);background:var(--acd);color:var(--ac)}
+.upz{border:2px dashed var(--bd);border-radius:8px;padding:20px;text-align:center;cursor:pointer;color:var(--mt);font-size:13px;transition:border-color .2s}
+.upz:hover{border-color:var(--ac);color:var(--ac)}
+.warn{background:rgba(255,197,51,.07);border:1px solid rgba(255,197,51,.2);border-radius:8px;padding:13px 15px;font-size:13px;margin-top:8px;line-height:1.5}
+
+/* TOAST */
+.toast{position:fixed;bottom:26px;right:26px;background:var(--sf);border:1px solid var(--bd2);border-radius:10px;padding:13px 18px;display:flex;align-items:center;gap:11px;z-index:999;font-size:13px;box-shadow:0 8px 32px rgba(0,0,0,.5);transform:translateY(80px);opacity:0;transition:all .3s ease;max-width:340px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-i{font-size:18px;flex-shrink:0}
+.toast b{display:block;font-weight:600;margin-bottom:1px}
+.toast span{color:var(--mt);font-size:12px}
+
+/* DETAIL SLIDE-IN */
+.dov{display:none;position:fixed;top:0;right:0;width:400px;height:100vh;background:var(--sf);border-left:1px solid var(--bd);z-index:150;overflow-y:auto;animation:slL .25s ease}
+.dov.open{display:block}
+@keyframes slL{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+.dhd{padding:16px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--sf);z-index:5}
+.dbody{padding:20px}
+.info-g{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:18px}
+.il{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mt);margin-bottom:3px}
+.iv{font-size:14px;font-weight:500}
+
+/* EMPTY */
+.empty{text-align:center;padding:55px 20px;color:var(--mt)}
+.empty-ic{font-size:38px;margin-bottom:11px}
+.empty-t{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--mt)}
+.empty-s{font-size:13px;margin-top:5px}
+
+/* ═══ v2 — melhorias ═══ */
+.hamb{display:none;background:none;border:1px solid var(--bd);color:var(--tx);border-radius:7px;width:36px;height:36px;font-size:17px;cursor:pointer;flex-shrink:0}
+.sb-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:90}
+.sbox{position:relative}
+.gs-res{display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;min-width:320px;background:var(--sf);border:1px solid var(--bd2);border-radius:9px;box-shadow:0 12px 32px rgba(0,0,0,.5);z-index:120;max-height:390px;overflow-y:auto}
+.gs-res.open{display:block}
+.gs-i{display:flex;gap:10px;align-items:center;padding:9px 13px;cursor:pointer;border-bottom:1px solid rgba(30,48,80,.4)}
+.gs-i:hover,.gs-i.sel{background:var(--acd)}
+.gs-ic{width:20px;text-align:center;flex-shrink:0}
+.gs-t{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gs-s{font-size:11px;color:var(--mt)}
+.gs-e{padding:11px 14px;color:var(--mt);font-size:12.5px}
+.fi.err{border-color:var(--rd)!important;box-shadow:0 0 0 2px var(--rdd)}
+.chips.err{outline:1px solid var(--rd);outline-offset:4px;border-radius:6px}
+.ni:focus-visible,.btn:focus-visible,.tab:focus-visible,.plnk:focus-visible,.chip:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.sw{position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0}
+.sw input{opacity:0;width:0;height:0;position:absolute}
+.sw span{position:absolute;inset:0;background:var(--sf3);border-radius:11px;cursor:pointer;transition:.2s}
+.sw span::before{content:'';position:absolute;width:18px;height:18px;left:2px;top:2px;background:var(--mt);border-radius:50%;transition:.2s}
+.sw input:checked+span{background:var(--ac)}
+.sw input:checked+span::before{transform:translateX(18px);background:#fff}
+.sw input:focus-visible+span{outline:2px solid var(--ac);outline-offset:2px}
+.panel{overflow-x:auto}
+.foto-prev{display:none;width:72px;height:72px;border-radius:50%;background:var(--sf3) center/cover;margin:0 auto 10px}
+.dsec{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ac);margin:18px 0 6px;padding-bottom:5px;border-bottom:1px solid var(--bd)}
+.mini{font-size:12.5px;padding:7px 0;border-bottom:1px solid rgba(30,48,80,.4);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fr.fr1{grid-template-columns:1fr}
+@media (max-width:1250px){.sg{grid-template-columns:repeat(3,1fr)}.g3{grid-template-columns:1fr 1fr}}
+@media (max-width:900px){
+  .sb{transform:translateX(-100%);transition:transform .25s ease}
+  .sb.open{transform:none;box-shadow:8px 0 30px rgba(0,0,0,.5)}
+  .sb.open+.sb-bg{display:block}
+  .main{margin-left:0}
+  .hamb{display:inline-flex;align-items:center;justify-content:center}
+  .topbar{padding:0 12px;gap:10px}
+  .live,.tb-title{display:none}
+  .sbox{width:auto;flex:1;min-width:0}
+  #tb-btn{padding:8px 11px;font-size:12px}
+  .content{padding:18px 14px 50px}
+  .sg{grid-template-columns:1fr 1fr}
+  .g21,.g2,.g3{grid-template-columns:1fr}
+  .ph{flex-direction:column;align-items:flex-start;gap:12px}
+  .fr,.fr3{grid-template-columns:1fr}
+  .modal,.modal-lg{width:100%}
+  .dov{width:100%}
+  .tabs{overflow-x:auto}
+  .tab{white-space:nowrap}
+  .gs-res{min-width:0;position:fixed;left:12px;right:12px;top:62px}
+  .toast{left:14px;right:14px;bottom:14px;max-width:none}
+}
+@media (max-width:480px){.sg{grid-template-columns:1fr}#tb-btn{font-size:0;padding:8px 12px}#tb-btn::before{content:'＋';font-size:15px}}
+@media print{
+  .sb,.sb-bg,.topbar,.btn,.tabs,.dov,.toast,.ov{display:none!important}
+  .main{margin:0}
+  body{background:#fff;color:#111}
+  .panel,.sc{background:#fff;border-color:#ccc;break-inside:avoid}
+  .sc-lbl,.sc-d,.ph-s{color:#555}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sb" id="sb">
+  <div class="sb-logo">
+    <div class="logo-row">
+      <div class="logo-ic">🏅</div>
+      <div>
+        <div class="logo-t">SPORT<span>CV</span></div>
+      </div>
+    </div>
+    <div class="logo-sub">Plataforma Nacional de Gestão Desportiva</div>
+    <div class="flag">
+      <div style="flex:3;background:#003893"></div>
+      <div style="flex:.7;background:#fff"></div>
+      <div style="flex:.7;background:#cf2027"></div>
+      <div style="flex:.7;background:#fff"></div>
+      <div style="flex:2;background:#003893"></div>
+    </div>
+  </div>
+
+  <div class="sb-nav">
+    <div class="ng-lbl">Visão Geral</div>
+    <div class="ni active" onclick="nav(this,'dashboard')"><span class="ic">⬡</span> Dashboard</div>
+
+    <div class="ng-lbl" style="margin-top:6px">Registos</div>
+    <div class="ni" onclick="nav(this,'atletas')"><span class="ic">👤</span> Atletas <span class="np np-b" id="np-atl"></span></div>
+    <div class="ni" onclick="nav(this,'clubes')"><span class="ic">🏛</span> Clubes / EID</div>
+    <div class="ni" onclick="nav(this,'oficiais')"><span class="ic">🟡</span> Árbitros / Oficiais</div>
+
+    <div class="ng-lbl" style="margin-top:6px">Estrutura</div>
+    <div class="ni" onclick="nav(this,'federacoes')"><span class="ic">🏅</span> Federações Nacionais</div>
+    <div class="ni" onclick="nav(this,'associacoes')"><span class="ic">🗺</span> Associações Regionais</div>
+
+    <div class="ng-lbl" style="margin-top:6px">Competições</div>
+    <div class="ni" onclick="nav(this,'competicoes')"><span class="ic">🏆</span> Competições <span class="np np-g" id="np-cmp"></span></div>
+    <div class="ni" onclick="nav(this,'licencas')"><span class="ic">📋</span> Licenças</div>
+
+    <div class="ng-lbl" style="margin-top:6px">Processos</div>
+    <div class="ni" onclick="nav(this,'transferencias')"><span class="ic">↔</span> Transferências <span class="np np-r" id="np-trf"></span></div>
+    <div class="ni" onclick="nav(this,'validacoes')"><span class="ic">✅</span> Validações <span class="np np-r" id="np-val"></span></div>
+    <div class="ni" onclick="nav(this,'relatorios')"><span class="ic">📊</span> Relatórios</div>
+
+    <div class="ng-lbl" style="margin-top:6px">Sistema</div>
+    <div class="ni" onclick="nav(this,'utilizadores')"><span class="ic">👥</span> Utilizadores</div>
+    <div class="ni" onclick="nav(this,'configuracoes')"><span class="ic">⚙</span> Configurações</div>
+  </div>
+
+  <div class="sb-user">
+    <div class="ua">PM</div>
+    <div>
+      <div class="u-role">Super Admin</div>
+      <div class="u-name">Pedro Moeda</div>
+      <div class="u-org">pedromoeda@gmail.com</div>
+    </div>
+  </div>
+</aside>
+
+<div class="sb-bg" onclick="toggleSb(false)"></div>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <button class="hamb" onclick="toggleSb()" aria-label="Abrir menu">☰</button>
+    <div class="tb-title" id="tb-title">Dashboard</div>
+    <div class="live"><div class="ldot"></div>Sistema Online</div>
+    <div class="sbox"><span style="color:var(--mt2)">🔍</span><input type="search" id="gs-input" placeholder="Pesquisar atletas, clubes, IDs…" autocomplete="off" aria-label="Pesquisa global" oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)" onkeydown="gsKey(event)"><div class="gs-res" id="gs-res"></div></div>
+    <button class="btn btn-p" id="tb-btn" onclick="openNew('m-atleta')">＋ Registar Atleta</button>
+  </div>
+
+  <div class="content">
+
+  <!-- ══ DASHBOARD ══ -->
+  <div id="page-dashboard" class="page active">
+    <div class="ph">
+      <div><div class="ph-t">Dashboard</div><div class="ph-s">Visão geral — calculada a partir dos registos</div></div>
+    </div>
+    <div class="sg">
+      <div class="sc sc-b" style="cursor:pointer" onclick="navTo('atletas')"><div class="sc-lbl">Atletas Registados</div><div class="sc-num" id="st-atl">0</div><div class="sc-d" id="st-atl-d"></div></div>
+      <div class="sc sc-g" style="cursor:pointer" onclick="navTo('clubes')"><div class="sc-lbl">Clubes / EID</div><div class="sc-num" id="st-clu">0</div><div class="sc-d" id="st-clu-d"></div></div>
+      <div class="sc sc-r" style="cursor:pointer" onclick="navTo('transferencias')"><div class="sc-lbl">Transferências Pendentes</div><div class="sc-num" id="st-trf">0</div><div class="sc-d" id="st-trf-d"></div></div>
+      <div class="sc sc-n" style="cursor:pointer" onclick="navTo('competicoes')"><div class="sc-lbl">Competições Ativas</div><div class="sc-num" id="st-cmp">0</div><div class="sc-d" id="st-cmp-d"></div></div>
+      <div class="sc sc-p" style="cursor:pointer" onclick="navTo('validacoes')"><div class="sc-lbl">Validações Pendentes</div><div class="sc-num" id="st-val">0</div><div class="sc-d" id="st-val-d"></div></div>
+    </div>
+    <div class="g21">
+      <div class="panel">
+        <div class="phd"><span class="ptitle">Últimos Atletas Registados</span><span class="plnk" onclick="navTo('atletas')">Ver todos →</span></div>
+        <table class="tbl"><thead><tr><th>Atleta</th><th>Clube</th><th>Modalidade</th><th>Estado</th><th>Ações</th></tr></thead>
+        <tbody id="dash-atl"></tbody></table>
+      </div>
+      <div class="panel">
+        <div class="phd"><span class="ptitle">Atividade Recente</span></div>
+        <div id="dash-act"></div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="panel">
+        <div class="phd"><span class="ptitle">Transferências em Curso</span><span class="plnk" onclick="navTo('transferencias')">Ver todas →</span></div>
+        <div id="dash-trf"></div>
+      </div>
+      <div class="panel">
+        <div class="phd"><span class="ptitle">Competições em Destaque</span><span class="plnk" onclick="navTo('competicoes')">Ver todas →</span></div>
+        <div id="dash-cmp"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ATLETAS ══ -->
+  <div id="page-atletas" class="page">
+    <div class="ph">
+      <div><div class="ph-t">Atletas</div><div class="ph-s" id="atl-count"></div></div>
+      <div class="ph-ac">
+        <button class="btn btn-g btn-sm" onclick="exportCSV('atletas')">⬇ Exportar CSV</button>
+        <button class="btn btn-p" onclick="openNew('m-atleta')">＋ Novo Atleta</button>
+      </div>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="tabFilter('atl','todos',this)">Todos</div>
+      <div class="tab" onclick="tabFilter('atl','ativo',this)">Ativos</div>
+      <div class="tab" onclick="tabFilter('atl','pendente',this)">Pendentes</div>
+      <div class="tab" onclick="tabFilter('atl','transferencia',this)">Em Transferência</div>
+      <div class="tab" onclick="tabFilter('atl','suspenso',this)">Suspensos</div>
+    </div>
+    <div class="panel"><table class="tbl"><thead><tr><th>Atleta / License ID</th><th>Clube</th><th>Modalidade</th><th>Ilha</th><th>Nasc.</th><th>Estado</th><th>Ações</th></tr></thead><tbody id="atl-tbody"></tbody></table></div>
+  </div>
+
+  <!-- ══ CLUBES ══ -->
+  <div id="page-clubes" class="page">
+    <div class="ph">
+      <div><div class="ph-t">Clubes e EID</div><div class="ph-s" id="clu-count"></div></div>
+      <div class="ph-ac">
+        <button class="btn btn-g btn-sm" onclick="exportCSV('clubes')">⬇ Exportar CSV</button>
+        <button class="btn btn-p" onclick="openNew('m-clube')">＋ Registar Entidade</button>
+      </div>
+    </div>
+    <div class="panel"><table class="tbl"><thead><tr><th>Entidade</th><th>Tipo</th><th>Federação</th><th>Ilha</th><th>Atletas</th><th>Estado</th><th>Ações</th></tr></thead><tbody id="clu-tbody"></tbody></table></div>
+  </div>
+
+  <!-- ══ OFICIAIS ══ -->
+  <div id="page-oficiais" class="page">
+    <div class="ph">
+      <div><div class="ph-t">Árbitros e Oficiais</div><div class="ph-s">Árbitros, treinadores e técnicos</div></div>
+      <div class="ph-ac"><button class="btn btn-p" onclick="openNew('m-oficial')">＋ Novo Oficial</button></div>
+    </div>
+    <div class="panel"><table class="tbl"><thead><tr><th>Nome / ID</th><th>Função</th><th>Modalidade</th><th>Categoria</th><th>Ilha</th><th>Estado</th><th>Ações</th></tr></thead><tbody id="ofi-tbody"></tbody></table></div>
+  </div>
+
+  <!-- ══ FEDERAÇÕES ══ -->
+  <div id="page-federacoes" class="page">
+    <div class="ph">
+      <div><div class="ph-t">Federações Desportivas Nacionais</div><div class="ph-s">Gestão de todas as federações nacionais de Cabo Verde</div></div>
+      <div class="ph-ac"><button class="btn btn-p" onclick="openNew('m-fed')">＋ Nova Federação</button></div>
+    </div>
+    <div class="panel"><table class="tbl"><thead><tr><th>Federação</th><th>Modalidade</th><th>Sede</th><th>Presidente</th><th>Clubes</th><th>Estado</th><th>Ações</th></tr></thead><tbody id="fed-tbody"></tbody></table></div>
+  </div>
+
+  <!-- ══ ASSOCIAÇÕES ══ -->
+  <div id="page-associacoes" class="page">
+    <div class="ph">
+      <div><div class="ph-t">Associações Regionais</div><div class="ph-s">Gestão de associações por ilha e região</div></div>
+      <div class="ph-ac"><button class="btn btn-p" onclick="openNew('m-assoc')">＋ Nova Associação</button></div>
+    </div>
+    <div class="panel"><table class="tbl"><thead><tr><th>Associação</th><th>Ilha / Região</th><th>Federação</th><th>Presidente</th><th>Clubes</th><th>Estado</th><th>Ações</th></tr></thead><tbody id="ass-tbody"></tbody></table></div>
+  </div>
+
+  <!-- ══ COMPETIÇÕES ══ -->
+  <div id="page-competicoes" class="page">
+    <div class="ph">
+      <div><div class="ph-t">Competições Oficiais</div><div class="ph-s">Calendário desportivo nacional e regional</div></div>
+      <div class="ph-ac">
+        <button class="btn btn-g btn-sm" onclick="exportCSV('competicoes')">⬇ Exportar calendário</button>
+        <button class="btn btn-p" onclick="openNew('m-comp')">＋ Nova Competição</button>
+      </div>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="tabFilter('comp','todos',this)">Todas</div>
+      <div class="tab" onclick="tabFilter('comp','nacional',this)">Nacionais</div>
+      <div class="tab" onclick="tabFilter('comp','regional',this)">Regionais</div>
+      <div class="tab" onclick="tabFilter('comp','ativo',this)">Em Curso</div>
+      <div class="tab" onclick="tabFilter('comp','inscricoes',this)">Inscrições Abertas</div>
+      <div class="tab" onclick="tabFilter('comp','concluida',this)">Concluídas</div>
+    </div>
+    <div id="comp-grid" class="g3"></div>
+  </div>
+
+  <!-- ══ LICENÇAS ══ -->
+  <div id="page-licencas" class="page">
+    <div class="ph">
+      <div><div class="ph-t">Licenças Desportivas</div><div class="ph-s">Emissão e gestão de licenças</div></div>
+      <div class="ph-ac"><button class="btn btn-p" onclick="openNew('m-lic')">＋ Emitir Licença</button></div>
+    </div>
+    <div class="panel"><table class="tbl"><thead><tr><th>Titular</th><th>Tipo</th><th>Época</th><th>Válida até</th><th>Estado</th><th>Ações</th></tr></thead><tbody id="lic-tbody"></tbody></table></div>
+  </div>
+
+  <!-- ══ TRANSFERÊNCIAS ══ -->
+  <div id="page-transferencias" class="page">
+    <div class="ph">
+      <div><div class="ph-t">Transferências</div><div class="ph-s" id="trf-count"></div></div>
+      <div class="ph-ac"><button class="btn btn-p" onclick="openNew('m-trans')">＋ Nova Transferência</button></div>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="tabFilter('trans','todos',this)">Todas</div>
+      <div class="tab" onclick="tabFilter('trans','nacional',this)">Nacionais</div>
+      <div class="tab" onclick="tabFilter('trans','internacional',this)">Internacionais</div>
+      <div class="tab" onclick="tabFilter('trans','menor',this)">Menores</div>
+    </div>
+    <div class="panel"><table class="tbl"><thead><tr><th>Atleta</th><th>Clube Origem</th><th>Clube Destino</th><th>Tipo</th><th>Estado</th><th>Data</th><th>Ações</th></tr></thead><tbody id="trans-tbody"></tbody></table></div>
+  </div>
+
+  <!-- ══ VALIDAÇÕES ══ -->
+  <div id="page-validacoes" class="page">
+    <div class="ph">
+      <div><div class="ph-t">Validações Pendentes</div><div class="ph-s" id="val-count"></div></div>
+    </div>
+    <div class="panel"><table class="tbl"><thead><tr><th>Tipo</th><th>Entidade / Pessoa</th><th>Submetido por</th><th>Data</th><th>Documentos</th><th>Decisão</th></tr></thead><tbody id="val-tbody"></tbody></table></div>
+  </div>
+
+  <!-- ══ RELATÓRIOS ══ -->
+  <div id="page-relatorios" class="page">
+    <div class="ph"><div><div class="ph-t">Relatórios e Estatísticas</div><div class="ph-s">Dados e análises da plataforma</div></div></div>
+    <div class="sg">
+      <div class="sc sc-b"><div class="sc-lbl">Atletas / Masculinos</div><div class="sc-num" id="rp-m">0</div><div class="sc-d" id="rp-m-d"></div></div>
+      <div class="sc sc-n"><div class="sc-lbl">Atletas / Femininas</div><div class="sc-num" id="rp-f">0</div><div class="sc-d" id="rp-f-d"></div></div>
+      <div class="sc sc-g"><div class="sc-lbl">Modalidade Principal</div><div class="sc-num" style="font-size:22px;margin-top:8px" id="rp-mod">—</div><div class="sc-d" id="rp-mod-d"></div></div>
+      <div class="sc sc-p"><div class="sc-lbl">Ilha com mais Atletas</div><div class="sc-num" style="font-size:22px;margin-top:8px" id="rp-ilha">—</div><div class="sc-d" id="rp-ilha-d"></div></div>
+      <div class="sc sc-r"><div class="sc-lbl">Média por Clube</div><div class="sc-num" id="rp-avg">0</div><div class="sc-d">atletas por clube ativo</div></div>
+    </div>
+    <div class="g2">
+      <div class="panel"><div class="phd"><span class="ptitle">Atletas por Modalidade</span></div>
+        <div style="padding:16px">
+          <div id="chart-modalidade"></div>
+        </div>
+      </div>
+      <div class="panel"><div class="phd"><span class="ptitle">Atletas por Ilha</span></div>
+        <div style="padding:16px">
+          <div id="chart-ilha"></div>
+        </div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="panel"><div class="phd"><span class="ptitle">Atletas por Escalão</span></div><div style="padding:16px"><div id="chart-escalao"></div></div></div>
+      <div class="panel"><div class="phd"><span class="ptitle">Atletas por Clube (Top 6)</span></div><div style="padding:16px"><div id="chart-clube"></div></div></div>
+    </div>
+    <div class="ph-ac" style="margin-bottom:16px;justify-content:flex-end;display:flex;gap:9px">
+      <button class="btn btn-g btn-sm" onclick="window.print()">📄 Imprimir / PDF</button>
+      <button class="btn btn-g btn-sm" onclick="exportCSV('relatorio')">📊 Exportar Excel (CSV)</button>
+    </div>
+  </div>
+
+  <!-- ══ UTILIZADORES ══ -->
+  <div id="page-utilizadores" class="page">
+    <div class="ph">
+      <div><div class="ph-t">Utilizadores do Sistema</div><div class="ph-s">Gestão de perfis e acessos</div></div>
+      <div class="ph-ac"><button class="btn btn-p" onclick="openNew('m-user')">＋ Novo Utilizador</button></div>
+    </div>
+    <div class="panel"><table class="tbl"><thead><tr><th>Utilizador</th><th>Perfil / Role</th><th>Entidade</th><th>Último Acesso</th><th>Estado</th><th>Ações</th></tr></thead><tbody id="usr-tbody"></tbody></table></div>
+  </div>
+
+  <!-- ══ CONFIGURAÇÕES ══ -->
+  <div id="page-configuracoes" class="page">
+    <div class="ph"><div><div class="ph-t">Configurações do Sistema</div><div class="ph-s">Parâmetros globais da plataforma</div></div></div>
+    <div class="g2">
+      <div class="panel">
+        <div class="phd"><span class="ptitle">Dados da Plataforma</span></div>
+        <div class="mb">
+          <div class="fr1" style="margin-bottom:13px"><div class="fg"><label>Nome da Plataforma</label><input class="fi" id="cfg-nome"></div></div>
+          <div class="fr1" style="margin-bottom:13px"><div class="fg"><label>País</label><input class="fi" id="cfg-pais"></div></div>
+          <div class="fr1" style="margin-bottom:13px"><div class="fg"><label>Email do Administrador</label><input class="fi" id="cfg-email" type="email"></div></div>
+          <div class="fr1" style="margin-bottom:13px"><div class="fg"><label>Época Desportiva Atual</label><input class="fi" id="cfg-epoca" placeholder="2026/2027"></div></div>
+          <button class="btn btn-p" onclick="saveConfig()">Guardar Alterações</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="phd"><span class="ptitle">Notificações e Alertas</span></div>
+        <div class="mb">
+          <div style="margin-bottom:16px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--bd)">
+              <div><div style="font-size:13px;font-weight:600">Notificar novos registos</div><div style="font-size:12px;color:var(--mt)">Email ao admin quando há novos pedidos</div></div>
+              <label class="sw"><input type="checkbox" id="cfg-n1"><span></span></label>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--bd)">
+              <div><div style="font-size:13px;font-weight:600">Alertas de ITC pendente</div><div style="font-size:12px;color:var(--mt)">Lembretes automáticos de transferências</div></div>
+              <label class="sw"><input type="checkbox" id="cfg-n2"><span></span></label>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0">
+              <div><div style="font-size:13px;font-weight:600">Relatório mensal automático</div><div style="font-size:12px;color:var(--mt)">PDF enviado no primeiro dia do mês</div></div>
+              <label class="sw"><input type="checkbox" id="cfg-n3"><span></span></label>
+            </div>
+          </div>
+          <button class="btn btn-p" onclick="saveConfig()">Guardar</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <div class="phd"><span class="ptitle">Dados e Cópia de Segurança</span></div>
+      <div class="mb">
+        <p style="font-size:13px;color:var(--mt);margin-bottom:14px;line-height:1.55">Nesta versão os dados ficam guardados no navegador deste dispositivo. Exporte uma cópia regularmente — limpar o histórico do navegador apaga os registos.</p>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <button class="btn btn-p" onclick="exportJSON()">⬇ Exportar cópia (JSON)</button>
+          <label class="btn btn-g">⬆ Importar cópia<input type="file" accept="application/json,.json" hidden onchange="importJSON(this)"></label>
+          <button class="btn btn-d" onclick="resetDemo()">↺ Repor demonstração</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /content -->
+</main>
+
+<!-- ════════════════════════════════════════
+     MODALS
+═════════════════════════════════════════ -->
+
+<!-- ATLETA -->
+<div class="ov" id="m-atleta">
+  <div class="modal">
+    <div class="mhd"><div class="mt2" id="m-atleta-title">Registar Novo Atleta</div><button class="mcl" onclick="closeModal('m-atleta')">✕</button></div>
+    <div class="mb">
+      <div class="fs">Dados Pessoais</div>
+      <div class="fr"><div class="fg"><label>Nome Completo *</label><input class="fi" id="a-nome" placeholder="Nome completo"></div><div class="fg"><label>Data de Nascimento *</label><input type="date" class="fi" id="a-nasc"></div></div>
+      <div class="fr"><div class="fg"><label>Género *</label><select class="fi" id="a-gen"><option value="">Selecionar…</option><option>Masculino</option><option>Feminino</option></select></div><div class="fg"><label>Nacionalidade *</label><select class="fi" id="a-nat"><option>Cabo-verdiana</option><option>Portuguesa</option><option>Outra</option></select></div></div>
+      <div class="fr"><div class="fg"><label>Morada</label><input class="fi" id="a-mor" placeholder="Endereço completo"></div><div class="fg"><label>Contacto</label><input class="fi" id="a-tel" placeholder="+238 …"></div></div>
+      <div class="fr1"><div class="fg"><label>Email</label><input type="email" class="fi" id="a-email" placeholder="email@exemplo.com"></div></div>
+
+      <div class="fs">Dados Desportivos</div>
+      <div class="fr"><div class="fg"><label>Clube / EID *</label><select class="fi" id="a-clube"><option value="">Selecionar entidade…</option><option>SC Praia</option><option>Académica</option><option>EID Mindelo</option><option>GD Sal</option><option>FC Boavista</option><option>AD Barlavento</option></select></div><div class="fg"><label>Modalidade *</label><select class="fi" id="a-mod"><option value="">Selecionar…</option><option>Futebol</option><option>Basquetebol</option><option>Andebol</option><option>Atletismo</option><option>Voleibol</option><option>Natação</option><option>Boxe</option><option>Judo</option></select></div></div>
+      <div class="fr"><div class="fg"><label>Posição / Especialidade</label><input class="fi" id="a-pos" placeholder="Ex: Avançado, Guarda-redes…"></div><div class="fg"><label>Número de Camisola</label><input type="number" class="fi" id="a-num" placeholder="—"></div></div>
+      <div class="fg"><label>Ilha *</label><div class="chips" id="a-ilha-chips">
+        <span class="chip" onclick="selChip(this,'a-ilha')">Santiago</span><span class="chip" onclick="selChip(this,'a-ilha')">São Vicente</span><span class="chip" onclick="selChip(this,'a-ilha')">Santo Antão</span><span class="chip" onclick="selChip(this,'a-ilha')">Sal</span><span class="chip" onclick="selChip(this,'a-ilha')">Fogo</span><span class="chip" onclick="selChip(this,'a-ilha')">Boa Vista</span><span class="chip" onclick="selChip(this,'a-ilha')">Maio</span><span class="chip" onclick="selChip(this,'a-ilha')">Brava</span><span class="chip" onclick="selChip(this,'a-ilha')">São Nicolau</span>
+      </div><input type="hidden" id="a-ilha"></div>
+
+      <div class="fs">Documentação</div>
+      <div class="fr"><div class="fg"><label>Tipo de Documento *</label><select class="fi" id="a-doc"><option>Bilhete de Identidade</option><option>Passaporte</option><option>Certidão de Nascimento</option></select></div><div class="fg"><label>Nº do Documento *</label><input class="fi" id="a-docnum" placeholder="Número…"></div></div>
+      <div class="fr1"><div class="fg"><label>Fotografia</label><label class="upz" style="display:block"><div class="foto-prev" id="a-foto-prev"></div><span id="a-foto-txt">📷 Clique para carregar fotografia (JPG/PNG)</span><input type="file" accept="image/*" hidden onchange="loadFoto(this)"></label><input type="hidden" id="a-foto"></div></div>
+      <div class="fr1"><div class="fg"><label>Observações</label><textarea class="fi" id="a-obs" placeholder="Notas adicionais…"></textarea></div></div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-g" onclick="closeModal('m-atleta')">Cancelar</button>
+      <button class="btn btn-p" onclick="saveAtleta()">Registar Atleta</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLUBE -->
+<div class="ov" id="m-clube">
+  <div class="modal">
+    <div class="mhd"><div class="mt2" id="m-clube-title">Registar Clube / EID</div><button class="mcl" onclick="closeModal('m-clube')">✕</button></div>
+    <div class="mb">
+      <div class="fs">Dados da Entidade</div>
+      <div class="fr"><div class="fg"><label>Nome Oficial *</label><input class="fi" id="c-nome" placeholder="Nome completo"></div><div class="fg"><label>Tipo *</label><select class="fi" id="c-tipo"><option>Clube</option><option>Escola de Iniciação Desportiva (EID)</option></select></div></div>
+      <div class="fr"><div class="fg"><label>Sigla / Abreviatura</label><input class="fi" id="c-sig" placeholder="Ex: SCP"></div><div class="fg"><label>Ano de Fundação</label><input type="number" class="fi" id="c-ano" placeholder="Ex: 1975"></div></div>
+      <div class="fr1"><div class="fg"><label>Federação Nacional *</label><select class="fi" id="c-fed"><option value="">Selecionar federação…</option><option>Federação Cabo-verdiana de Futebol</option><option>Federação Cabo-verdiana de Basquetebol</option><option>Federação Cabo-verdiana de Andebol</option><option>Federação Cabo-verdiana de Atletismo</option><option>Federação Cabo-verdiana de Voleibol</option></select></div></div>
+      <div class="fr"><div class="fg"><label>Presidente / Responsável *</label><input class="fi" id="c-pres" placeholder="Nome do responsável"></div><div class="fg"><label>Contacto *</label><input class="fi" id="c-tel" placeholder="+238 …"></div></div>
+      <div class="fr"><div class="fg"><label>Email Oficial *</label><input type="email" class="fi" id="c-email" placeholder="email@clube.cv"></div><div class="fg"><label>Website</label><input class="fi" id="c-web" placeholder="www.clube.cv"></div></div>
+      <div class="fg" style="margin-bottom:13px"><label>Ilha *</label><div class="chips" id="c-ilha-chips">
+        <span class="chip" onclick="selChip(this,'c-ilha')">Santiago</span><span class="chip" onclick="selChip(this,'c-ilha')">São Vicente</span><span class="chip" onclick="selChip(this,'c-ilha')">Santo Antão</span><span class="chip" onclick="selChip(this,'c-ilha')">Sal</span><span class="chip" onclick="selChip(this,'c-ilha')">Fogo</span><span class="chip" onclick="selChip(this,'c-ilha')">Boa Vista</span><span class="chip" onclick="selChip(this,'c-ilha')">Maio</span><span class="chip" onclick="selChip(this,'c-ilha')">Brava</span><span class="chip" onclick="selChip(this,'c-ilha')">São Nicolau</span>
+      </div><input type="hidden" id="c-ilha"></div>
+      <div class="fr1"><div class="fg"><label>Morada / Sede</label><input class="fi" id="c-mor" placeholder="Endereço da sede"></div></div>
+      <div class="fr1"><div class="fg"><label>Modalidades Praticadas</label><input class="fi" id="c-mods" placeholder="Ex: Futebol, Basquetebol"></div></div>
+      <div class="fr1"><div class="fg"><label>Observações</label><textarea class="fi" id="c-obs" placeholder="Notas…"></textarea></div></div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-g" onclick="closeModal('m-clube')">Cancelar</button>
+      <button class="btn btn-p" onclick="saveClube()">Submeter Pedido</button>
+    </div>
+  </div>
+</div>
+
+<!-- OFICIAL -->
+<div class="ov" id="m-oficial">
+  <div class="modal">
+    <div class="mhd"><div class="mt2" id="m-oficial-title">Registar Árbitro / Oficial</div><button class="mcl" onclick="closeModal('m-oficial')">✕</button></div>
+    <div class="mb">
+      <div class="fs">Dados Pessoais</div>
+      <div class="fr"><div class="fg"><label>Nome Completo *</label><input class="fi" id="o-nome" placeholder="Nome completo"></div><div class="fg"><label>Data de Nascimento *</label><input type="date" class="fi" id="o-nasc"></div></div>
+      <div class="fr"><div class="fg"><label>Contacto</label><input class="fi" id="o-tel" placeholder="+238 …"></div><div class="fg"><label>Email</label><input class="fi" id="o-email" placeholder="email@exemplo.com"></div></div>
+      <div class="fs">Dados Profissionais</div>
+      <div class="fr"><div class="fg"><label>Função *</label><select class="fi" id="o-func"><option value="">Selecionar…</option><option>Árbitro</option><option>Árbitro Assistente</option><option>Treinador</option><option>Treinador Adjunto</option><option>Delegado de Jogo</option><option>Oficial Técnico</option><option>Médico</option><option>Fisioterapeuta</option></select></div><div class="fg"><label>Modalidade *</label><select class="fi" id="o-mod"><option value="">Selecionar…</option><option>Futebol</option><option>Basquetebol</option><option>Andebol</option><option>Atletismo</option><option>Voleibol</option><option>Natação</option><option>Boxe</option><option>Judo</option></select></div></div>
+      <div class="fr"><div class="fg"><label>Categoria / Nível</label><select class="fi" id="o-cat"><option>Nacional</option><option>Regional</option><option>Internacional</option><option>Iniciação</option></select></div><div class="fg"><label>Ilha</label><select class="fi" id="o-ilha"><option>Santiago</option><option>São Vicente</option><option>Santo Antão</option><option>Sal</option><option>Fogo</option><option>Boa Vista</option><option>Maio</option><option>Brava</option><option>São Nicolau</option></select></div></div>
+      <div class="fr1"><div class="fg"><label>Número de Licença</label><input class="fi" id="o-lic" placeholder="Número de licença de árbitro / técnico"></div></div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-g" onclick="closeModal('m-oficial')">Cancelar</button>
+      <button class="btn btn-p" onclick="saveOficial()">Registar Oficial</button>
+    </div>
+  </div>
+</div>
+
+<!-- FEDERAÇÃO -->
+<div class="ov" id="m-fed">
+  <div class="modal">
+    <div class="mhd"><div class="mt2" id="m-fed-title">Nova Federação Desportiva Nacional</div><button class="mcl" onclick="closeModal('m-fed')">✕</button></div>
+    <div class="mb">
+      <div class="fs">Identificação</div>
+      <div class="fr"><div class="fg"><label>Nome Oficial *</label><input class="fi" id="f-nome" placeholder="Federação Cabo-verdiana de…"></div><div class="fg"><label>Modalidade *</label><input class="fi" id="f-mod" placeholder="Ex: Futebol"></div></div>
+      <div class="fr"><div class="fg"><label>Sigla *</label><input class="fi" id="f-sig" placeholder="Ex: FCF"></div><div class="fg"><label>Ano de Fundação</label><input type="number" class="fi" id="f-ano" placeholder="Ex: 1982"></div></div>
+      <div class="fs">Contactos e Sede</div>
+      <div class="fr"><div class="fg"><label>Sede *</label><input class="fi" id="f-sede" placeholder="Cidade, Ilha"></div><div class="fg"><label>Morada</label><input class="fi" id="f-mor" placeholder="Endereço completo"></div></div>
+      <div class="fr"><div class="fg"><label>Presidente *</label><input class="fi" id="f-pres" placeholder="Nome do presidente"></div><div class="fg"><label>Secretário-Geral</label><input class="fi" id="f-sec" placeholder="Nome"></div></div>
+      <div class="fr"><div class="fg"><label>Email Oficial *</label><input type="email" class="fi" id="f-email" placeholder="federacao@desporto.cv"></div><div class="fg"><label>Telefone</label><input class="fi" id="f-tel" placeholder="+238 …"></div></div>
+      <div class="fr"><div class="fg"><label>Website</label><input class="fi" id="f-web" placeholder="www.federacao.cv"></div><div class="fg"><label>Afiliação Internacional</label><input class="fi" id="f-int" placeholder="Ex: FIFA, FIBA, IHF…"></div></div>
+      <div class="fs">Informação Adicional</div>
+      <div class="fr1"><div class="fg"><label>Descrição / Missão</label><textarea class="fi" id="f-desc" placeholder="Descrição da federação…"></textarea></div></div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-g" onclick="closeModal('m-fed')">Cancelar</button>
+      <button class="btn btn-p" onclick="saveFed()">Registar Federação</button>
+    </div>
+  </div>
+</div>
+
+<!-- ASSOCIAÇÃO -->
+<div class="ov" id="m-assoc">
+  <div class="modal">
+    <div class="mhd"><div class="mt2" id="m-assoc-title">Nova Associação Regional</div><button class="mcl" onclick="closeModal('m-assoc')">✕</button></div>
+    <div class="mb">
+      <div class="fs">Identificação</div>
+      <div class="fr"><div class="fg"><label>Nome Oficial *</label><input class="fi" id="as-nome" placeholder="Associação Regional de… de…"></div><div class="fg"><label>Sigla</label><input class="fi" id="as-sig" placeholder="Ex: ARFS"></div></div>
+      <div class="fr"><div class="fg"><label>Federação Nacional *</label><select class="fi" id="as-fed"><option value="">Selecionar federação…</option><option>Federação Cabo-verdiana de Futebol</option><option>Federação Cabo-verdiana de Basquetebol</option><option>Federação Cabo-verdiana de Andebol</option><option>Federação Cabo-verdiana de Atletismo</option><option>Federação Cabo-verdiana de Voleibol</option></select></div><div class="fg"><label>Ilha / Região *</label><select class="fi" id="as-ilha"><option value="">Selecionar…</option><option>Santiago</option><option>São Vicente</option><option>Santo Antão</option><option>Sal</option><option>Fogo</option><option>Boa Vista</option><option>Maio</option><option>Brava</option><option>São Nicolau</option></select></div></div>
+      <div class="fs">Contactos</div>
+      <div class="fr"><div class="fg"><label>Presidente *</label><input class="fi" id="as-pres" placeholder="Nome do presidente"></div><div class="fg"><label>Vice-Presidente</label><input class="fi" id="as-vp" placeholder="Nome"></div></div>
+      <div class="fr"><div class="fg"><label>Email *</label><input type="email" class="fi" id="as-email" placeholder="assoc@regional.cv"></div><div class="fg"><label>Telefone</label><input class="fi" id="as-tel" placeholder="+238 …"></div></div>
+      <div class="fr1"><div class="fg"><label>Sede / Endereço</label><input class="fi" id="as-sede" placeholder="Morada da sede"></div></div>
+      <div class="fr1"><div class="fg"><label>Clubes sob tutela</label><input class="fi" id="as-clubes" placeholder="Listar clubes (separados por vírgula)"></div></div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-g" onclick="closeModal('m-assoc')">Cancelar</button>
+      <button class="btn btn-p" onclick="saveAssoc()">Registar Associação</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMPETIÇÃO -->
+<div class="ov" id="m-comp">
+  <div class="modal modal-lg">
+    <div class="mhd"><div class="mt2" id="m-comp-title">Nova Competição Oficial</div><button class="mcl" onclick="closeModal('m-comp')">✕</button></div>
+    <div class="mb">
+      <div class="fs">Identificação da Competição</div>
+      <div class="fr"><div class="fg"><label>Nome da Competição *</label><input class="fi" id="cp-nome" placeholder="Ex: Campeonato Nacional de Futebol 2025"></div><div class="fg"><label>Tipo de Competição *</label><select class="fi" id="cp-tipo"><option value="">Selecionar…</option><option>Torneio de Abertura</option><option>Supertaça Regional</option><option>Campeonato Regional</option><option>Supertaça Nacional</option><option>Campeonato Nacional</option><option>Taça Nacional</option><option>Torneio Internacional</option><option>Outra Competição</option></select></div></div>
+      <div class="fr"><div class="fg"><label>Modalidade *</label><select class="fi" id="cp-mod"><option value="">Selecionar…</option><option>Futebol</option><option>Basquetebol</option><option>Andebol</option><option>Atletismo</option><option>Voleibol</option><option>Natação</option><option>Boxe</option><option>Judo</option></select></div><div class="fg"><label>Nível *</label><select class="fi" id="cp-nivel"><option>Nacional</option><option>Regional</option></select></div></div>
+      <div class="fr"><div class="fg"><label>Organizador *</label><select class="fi" id="cp-org"><option value="">Selecionar…</option><option>Federação Cabo-verdiana de Futebol</option><option>Federação Cabo-verdiana de Basquetebol</option><option>Assoc. Regional Santiago</option><option>Assoc. Regional São Vicente</option><option>Assoc. Regional Sal</option></select></div><div class="fg"><label>Género / Escalão</label><select class="fi" id="cp-gen"><option>Masculino</option><option>Feminino</option><option>Misto</option><option>Sénior</option><option>Sub-14</option><option>Sub-16</option><option>Sub-18</option><option>Sub-21</option></select></div></div>
+      <div class="fs">Datas e Local</div>
+      <div class="fr"><div class="fg"><label>Data de Início *</label><input type="date" class="fi" id="cp-ini"></div><div class="fg"><label>Data de Fim</label><input type="date" class="fi" id="cp-fim"></div></div>
+      <div class="fr"><div class="fg"><label>Prazo de Inscrições</label><input type="date" class="fi" id="cp-praz"></div><div class="fg"><label>Local / Sede</label><input class="fi" id="cp-loc" placeholder="Cidade ou instalação"></div></div>
+      <div class="fr"><div class="fg"><label>Nº Mínimo de Equipas</label><input type="number" class="fi" id="cp-min" placeholder="Ex: 4"></div><div class="fg"><label>Nº Máximo de Equipas</label><input type="number" class="fi" id="cp-max" placeholder="Ex: 16"></div></div>
+      <div class="fs">Regulamento e Observações</div>
+      <div class="fr"><div class="fg"><label>Formato de Competição</label><select class="fi" id="cp-fmt"><option>Fase de grupos + Eliminatórias</option><option>Liga (todos contra todos)</option><option>Eliminação direta</option><option>Torneio (ida e volta)</option></select></div><div class="fg"><label>Estado</label><select class="fi" id="cp-est"><option>Inscrições Abertas</option><option>Em preparação</option><option>Em curso</option><option>Concluída</option></select></div></div>
+      <div class="fr1"><div class="fg"><label>Regulamento / Observações</label><textarea class="fi" id="cp-obs" placeholder="Regras específicas, notas, critérios de elegibilidade…"></textarea></div></div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-g" onclick="closeModal('m-comp')">Cancelar</button>
+      <button class="btn btn-p" onclick="saveComp()">Criar Competição</button>
+    </div>
+  </div>
+</div>
+
+<!-- LICENÇA -->
+<div class="ov" id="m-lic">
+  <div class="modal">
+    <div class="mhd"><div class="mt2" id="m-lic-title">Emitir Licença Desportiva</div><button class="mcl" onclick="closeModal('m-lic')">✕</button></div>
+    <div class="mb">
+      <div class="fs">Dados da Licença</div>
+      <div class="fr fr1"><div class="fg"><label>Titular (Atleta / Oficial) *</label><input class="fi" id="l-tit" list="dl-tit" autocomplete="off" placeholder="Escreva o nome e escolha da lista…" oninput="licTitChange()"></div></div>
+      <div class="fr"><div class="fg"><label>Tipo de Licença *</label><select class="fi" id="l-tipo"><option>Atleta Sénior</option><option>Atleta Júnior</option><option>Atleta Iniciado</option><option>Treinador</option><option>Árbitro</option><option>Oficial</option></select></div><div class="fg"><label>Época *</label><select class="fi" id="l-epoca"></select></div></div>
+      <div class="fr"><div class="fg"><label>Data de Início *</label><input type="date" class="fi" id="l-ini"></div><div class="fg"><label>Data de Validade *</label><input type="date" class="fi" id="l-val"></div></div>
+      <div class="fr fr1"><div class="fg"><label>Clube / Entidade</label><select class="fi" id="l-ent"></select></div></div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-g" onclick="closeModal('m-lic')">Cancelar</button>
+      <button class="btn btn-p" onclick="saveLic()">Emitir Licença</button>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSFERÊNCIA -->
+<div class="ov" id="m-trans">
+  <div class="modal">
+    <div class="mhd"><div class="mt2" id="m-trans-title">Nova Transferência</div><button class="mcl" onclick="closeModal('m-trans')">✕</button></div>
+    <div class="mb">
+      <div class="fs">Dados do Atleta</div>
+      <div class="fr1"><div class="fg"><label>Atleta *</label><input class="fi" id="t-atl" list="dl-atl" autocomplete="off" placeholder="Escreva o nome ou License ID e escolha da lista…" oninput="transAtlChange()"></div></div>
+      <div class="fr"><div class="fg"><label>Clube de Origem *</label><select class="fi" id="t-orig"><option value="">Selecionar…</option><option>SC Praia</option><option>Académica</option><option>EID Mindelo</option><option>GD Sal</option><option>FC Boavista</option></select></div><div class="fg"><label>Tipo de Transferência *</label><select class="fi" id="t-tipo" onchange="toggleITC()"><option>Nacional</option><option>Internacional</option></select></div></div>
+      <div class="fr1"><div class="fg"><label>Clube de Destino *</label><input class="fi" id="t-dest" placeholder="Nome do clube destino"></div></div>
+      <div class="fr1" id="t-pais-row" style="display:none"><div class="fg"><label>País de Destino *</label><input class="fi" id="t-pais" placeholder="País do clube de destino"></div></div>
+      <div class="fs">Informações</div>
+      <div class="fr"><div class="fg"><label>Data do Pedido</label><input type="date" class="fi" id="t-data"></div><div class="fg"><label>Atleta Menor de 18 anos? (calculado)</label><select class="fi" id="t-menor"><option>Não</option><option>Sim</option></select></div></div>
+      <div class="fr1"><div class="fg"><label>Observações</label><textarea class="fi" id="t-obs" placeholder="Motivo, condições, notas…"></textarea></div></div>
+      <div class="warn" id="t-itc-warn" style="display:none">⚠️ <b>Transferência Internacional:</b> Será necessário emitir um Certificado Internacional de Transferência (ITC). O processo pode demorar até 5 dias úteis após aprovação da federação de origem.</div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-g" onclick="closeModal('m-trans')">Cancelar</button>
+      <button class="btn btn-p" onclick="saveTrans()">Submeter Pedido</button>
+    </div>
+  </div>
+</div>
+
+<!-- UTILIZADOR -->
+<div class="ov" id="m-user">
+  <div class="modal">
+    <div class="mhd"><div class="mt2" id="m-user-title">Novo Utilizador do Sistema</div><button class="mcl" onclick="closeModal('m-user')">✕</button></div>
+    <div class="mb">
+      <div class="fs">Dados do Utilizador</div>
+      <div class="fr"><div class="fg"><label>Nome Completo *</label><input class="fi" id="u-nome" placeholder="Nome completo"></div><div class="fg"><label>Email *</label><input type="email" class="fi" id="u-email" placeholder="email@exemplo.com"></div></div>
+      <div class="fr"><div class="fg"><label>Perfil / Role *</label><select class="fi" id="u-role"><option value="">Selecionar…</option><option>Administrador</option><option>Federação Nacional</option><option>Associação Regional</option><option>Clube / EID</option><option>Árbitro / Oficial</option><option>Leitura (read-only)</option></select></div><div class="fg"><label>Entidade Associada</label><select class="fi" id="u-ent"><option value="">Selecionar entidade…</option><option>SC Praia</option><option>Académica</option><option>Fed. Futebol CV</option><option>Assoc. Regional Santiago</option></select></div></div>
+      <div class="fr" id="u-pass-row"><div class="fg"><label>Palavra-passe Temporária *</label><input type="password" class="fi" id="u-pass" placeholder="Mínimo 8 caracteres"></div><div class="fg"><label>Confirmar Palavra-passe *</label><input type="password" class="fi" id="u-pass2" placeholder="Repetir palavra-passe"></div></div>
+      <div class="warn">ℹ️ Protótipo: a palavra-passe não é guardada. O envio de credenciais e o login real requerem autenticação no servidor (ex.: Firebase Auth) — ver roteiro.</div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-g" onclick="closeModal('m-user')">Cancelar</button>
+      <button class="btn btn-p" onclick="saveUser()">Criar Utilizador</button>
+    </div>
+  </div>
+</div>
+
+<datalist id="dl-atl"></datalist>
+<datalist id="dl-tit"></datalist>
+
+<!-- DETAIL PANEL -->
+<div class="dov" id="detail-panel">
+  <div class="dhd">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase" id="dp-title">Detalhes</div>
+    <button class="mcl" onclick="closeDetail()">✕</button>
+  </div>
+  <div class="dbody" id="dp-body"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-i" id="toast-i">✅</div>
+  <div><b id="toast-t"></b><span id="toast-s"></span></div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+//  SportCV — lógica da aplicação (v2 · 27/10/2026)
+//  • Dados persistidos no navegador (localStorage) + cópia JSON
+//  • Contadores, relatórios e badges calculados a partir dos dados
+//  • Fluxos ligados: registo → validação → licença; transferência → ITC
+// ════════════════════════════════════════════════════════════════
+
+const STORE_KEY = 'sportcv_db_v2';
+const ILHAS = ['Santiago','São Vicente','Santo Antão','Sal','Fogo','Boa Vista','Maio','Brava','São Nicolau'];
+const MOD_EMOJI = {Futebol:'⚽',Basquetebol:'🏀',Andebol:'🤾',Atletismo:'🏃',Voleibol:'🏐',Natação:'🏊',Boxe:'🥊',Judo:'🥋'};
+const EST_MAP = {'Inscrições Abertas':'inscricoes','Em preparação':'preparacao','Em curso':'ativo','Concluída':'concluida'};
+const EST_TXT = Object.fromEntries(Object.entries(EST_MAP).map(([k,v])=>[v,k]));
+
+// ─── UTILITÁRIOS ───
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const pad = (n,l) => String(n).padStart(l,'0');
+const todayISO = () => { const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1,2)}-${pad(d.getDate(),2)}`; };
+function seasonOf(d=new Date()){ const y=d.getFullYear(); return d.getMonth()>=7 ? `${y}/${y+1}` : `${y-1}/${y}`; }
+const seasonEnd = ep => ep.split('/')[1] + '-06-30';
+const seasonNext = ep => { const a=parseInt(ep.split('/')[0],10)+1; return `${a}/${a+1}`; };
+const seasonPrev = ep => { const a=parseInt(ep.split('/')[0],10)-1; return `${a}/${a+1}`; };
+function fmtDate(iso){ if(!iso) return '—'; const p=String(iso).split('-'); return p.length===3 ? `${p[2]}/${p[1]}/${p[0]}` : iso; }
+function age(dob){ if(!dob) return null; const d=new Date(dob), n=new Date(); let a=n.getFullYear()-d.getFullYear(); if(n < new Date(n.getFullYear(), d.getMonth(), d.getDate())) a--; return a; }
+function escalao(a){ if(a===null) return '—'; if(a<14) return 'Sub-14'; if(a<16) return 'Sub-16'; if(a<18) return 'Sub-18'; if(a<21) return 'Sub-21'; return 'Sénior'; }
+function nextNum(arr){ return Math.max(0, ...arr.map(x => parseInt((String(x.id).match(/(\d+)$/)||[0,'0'])[1],10) || 0)) + 1; }
+function timeAgo(ts){ const m=Math.round((Date.now()-ts)/60000); if(m<1) return 'agora'; if(m<60) return `há ${m} min`; const h=Math.round(m/60); if(h<24) return `há ${h}h`; const d=Math.round(h/24); return d===1 ? 'ontem' : `há ${d} dias`; }
+function countBy(arr, fn){ const m={}; arr.forEach(x=>{ const k=fn(x)||'—'; m[k]=(m[k]||0)+1; }); return Object.entries(m).sort((a,b)=>b[1]-a[1]); }
+function download(name, content, type){ const b=new Blob([content],{type}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},500); }
+
+// ─── DADOS DE DEMONSTRAÇÃO ───
+function buildSeed(){
+  const EP = seasonOf(), EPV = seasonEnd(EP), T = Date.now(), H = 3600000;
+  const F = {fut:'Federação Cabo-verdiana de Futebol', bas:'Federação Cabo-verdiana de Basquetebol', and:'Federação Cabo-verdiana de Andebol', atl:'Federação Cabo-verdiana de Atletismo', nat:'Federação Cabo-verdiana de Natação', vol:'Federação Cabo-verdiana de Voleibol'};
+  const clubes = [
+    {id:'CLB-001',nome:'SC Praia',sig:'SCP',tipo:'Clube',fed:F.fut,ilha:'Santiago',pres:'Manuel Correia',email:'scpraia@cv.cv',estado:'ativo'},
+    {id:'CLB-002',nome:'Académica',sig:'ACA',tipo:'Clube',fed:F.bas,ilha:'Santiago',pres:'Teresa Lima',email:'academica@cv.cv',estado:'ativo'},
+    {id:'EID-001',nome:'EID Mindelo',sig:'EIDM',tipo:'EID',fed:F.and,ilha:'São Vicente',pres:'João Santos',email:'eidmindelo@cv.cv',estado:'ativo'},
+    {id:'CLB-003',nome:'GD Sal',sig:'GDS',tipo:'Clube',fed:F.atl,ilha:'Sal',pres:'Carlos Rocha',email:'gdsal@cv.cv',estado:'ativo'},
+    {id:'CLB-004',nome:'FC Boavista',sig:'FCB',tipo:'Clube',fed:F.fut,ilha:'Fogo',pres:'Rui Andrade',email:'fcboavista@cv.cv',estado:'ativo'},
+    {id:'CLB-005',nome:'AD Barlavento',sig:'ADB',tipo:'Clube',fed:F.vol,ilha:'Santo Antão',pres:'Sónia Delgado',email:'adbarlavento@cv.cv',estado:'ativo'},
+    {id:'EID-002',nome:'EID Santiago Norte',sig:'EIDSN',tipo:'EID',fed:F.fut,ilha:'Santiago',pres:'Paulo Neves',email:'eidsn@cv.cv',estado:'pendente'},
+  ];
+  const atletas = [
+    {id:'LIC-2025-00847',nome:'João Carvalho',clube:'SC Praia',mod:'Futebol',ilha:'Santiago',nasc:'2003-04-12',gen:'Masculino',docnum:'BI-0012847',estado:'ativo',criado:T-12*60000},
+    {id:'LIC-2025-00846',nome:'Maria Lopes',clube:'Académica',mod:'Basquetebol',ilha:'Santiago',nasc:'2007-08-22',gen:'Feminino',docnum:'BI-0012846',estado:'pendente',criado:T-30*H},
+    {id:'LIC-2025-00845',nome:'Ricardo Fonseca',clube:'EID Mindelo',mod:'Andebol',ilha:'São Vicente',nasc:'2009-01-05',gen:'Masculino',docnum:'BI-0012845',estado:'ativo'},
+    {id:'LIC-2025-00844',nome:'Ana Monteiro',clube:'GD Sal',mod:'Atletismo',ilha:'Sal',nasc:'2001-11-30',gen:'Feminino',docnum:'BI-0012844',estado:'transferencia'},
+    {id:'LIC-2025-00843',nome:'Dinis Silva',clube:'FC Boavista',mod:'Futebol',ilha:'Fogo',nasc:'1998-06-17',gen:'Masculino',docnum:'BI-0012843',estado:'suspenso'},
+    {id:'LIC-2025-00842',nome:'Cláudia Ferreira',clube:'AD Barlavento',mod:'Voleibol',ilha:'Santo Antão',nasc:'2005-03-08',gen:'Feminino',docnum:'BI-0012842',estado:'ativo'},
+    {id:'LIC-2025-00841',nome:'Bruno Tavares',clube:'SC Praia',mod:'Futebol',ilha:'Santiago',nasc:'2000-09-14',gen:'Masculino',docnum:'BI-0012841',estado:'ativo'},
+    {id:'LIC-2025-00840',nome:'Sandra Évora',clube:'Académica',mod:'Basquetebol',ilha:'Santiago',nasc:'2006-12-03',gen:'Feminino',docnum:'BI-0012840',estado:'ativo'},
+    {id:'LIC-2025-00839',nome:'Bruno Correia',clube:'SC Praia',mod:'Futebol',ilha:'Santiago',nasc:'2004-02-19',gen:'Masculino',docnum:'BI-0012839',estado:'pendente',criado:T-60*H},
+    {id:'LIC-2025-00820',nome:'Paulo Tavares',clube:'SC Praia',mod:'Futebol',ilha:'Santiago',nasc:'1999-07-01',gen:'Masculino',docnum:'BI-0012820',estado:'ativo'},
+    {id:'LIC-2025-00811',nome:'Kelvin Neves',clube:'EID Mindelo',mod:'Andebol',ilha:'São Vicente',nasc:'2010-05-27',gen:'Masculino',docnum:'BI-0012811',estado:'transferencia'},
+  ];
+  // atletas gerados (determinístico) para uma demonstração com volume realista
+  const pm=['Adilson','Carlos','Edson','Gilson','Ivanildo','Kevin','Mário','Odair','Rui','Tiago','Wilson','Hélder','Nuno','Elton'];
+  const pf=['Bruna','Djeniffer','Fátima','Helena','Joana','Larissa','Nádia','Patrícia','Sónia','Vera','Yara','Edna','Ivone','Keila'];
+  const ap=['Semedo','Tavares','Varela','Lopes','Furtado','Moreira','Gomes','Rodrigues','Fernandes','Delgado','Brito','Fortes','Cabral','Spencer','Lima','Andrade'];
+  const base=clubes.filter(c=>c.estado==='ativo').map(c=>({clube:c.nome,ilha:c.ilha,mod:{[F.fut]:'Futebol',[F.bas]:'Basquetebol',[F.and]:'Andebol',[F.atl]:'Atletismo',[F.vol]:'Voleibol'}[c.fed]}));
+  let s=11; const r=()=>{ s=(s*9301+49297)%233280; return s/233280; };
+  for(let i=0;i<54;i++){
+    const c=base[Math.floor(r()*base.length)], fem=r()<.42;
+    const nome=(fem?pf:pm)[Math.floor(r()*14)]+' '+ap[Math.floor(r()*ap.length)];
+    const y=1995+Math.floor(r()*17), mo=1+Math.floor(r()*12), d=1+Math.floor(r()*27);
+    atletas.push({id:'LIC-2025-'+pad(700+i,5),nome,clube:c.clube,mod:c.mod,ilha:c.ilha,nasc:`${y}-${pad(mo,2)}-${pad(d,2)}`,gen:fem?'Feminino':'Masculino',docnum:'BI-00'+pad(11700+i,5),estado:r()<.06?'suspenso':'ativo'});
+  }
+  return {
+    _v:2,
+    config:{nome:'SportCV',pais:'Cabo Verde',email:'pedromoeda@gmail.com',epoca:EP,n1:true,n2:true,n3:false},
+    atletas, clubes,
+    oficiais:[
+      {id:'ARB-001',nome:'António Fonseca',func:'Árbitro',mod:'Futebol',cat:'Nacional',ilha:'Santiago',estado:'ativo'},
+      {id:'ARB-002',nome:'Carla Mendes',func:'Árbitro Assistente',mod:'Futebol',cat:'Nacional',ilha:'Santiago',estado:'ativo'},
+      {id:'TRN-003',nome:'Francisco Évora',func:'Treinador',mod:'Basquetebol',cat:'Internacional',ilha:'São Vicente',estado:'ativo'},
+      {id:'ARB-004',nome:'Helena Cruz',func:'Árbitro',mod:'Andebol',cat:'Regional',ilha:'Sal',estado:'ativo'},
+      {id:'TRN-005',nome:'Marisa Lopes',func:'Treinador',mod:'Voleibol',cat:'Nacional',ilha:'Santiago',estado:'ativo'},
+    ],
+    federacoes:[
+      {id:'FED-001',nome:F.fut,mod:'Futebol',sig:'FCF',sede:'Praia',pres:'José Andrade',email:'fcf@desporto.cv',afil:'FIFA / CAF',estado:'ativo'},
+      {id:'FED-002',nome:F.bas,mod:'Basquetebol',sig:'FCB',sede:'Praia',pres:'Ana Lima',email:'fcb@desporto.cv',afil:'FIBA',estado:'ativo'},
+      {id:'FED-003',nome:F.and,mod:'Andebol',sig:'FCA',sede:'Mindelo',pres:'Pedro Costa',email:'fca@desporto.cv',afil:'IHF / CAHB',estado:'ativo'},
+      {id:'FED-004',nome:F.atl,mod:'Atletismo',sig:'FCAt',sede:'Praia',pres:'Luísa Barros',email:'fcat@desporto.cv',afil:'World Athletics',estado:'ativo'},
+      {id:'FED-005',nome:F.nat,mod:'Natação',sig:'FCN',sede:'Praia',pres:'Ricardo Silva',email:'fcn@desporto.cv',afil:'World Aquatics',estado:'pendente'},
+      {id:'FED-006',nome:F.vol,mod:'Voleibol',sig:'FCV',sede:'Praia',pres:'Marta Gomes',email:'fcv@desporto.cv',afil:'FIVB / CAVB',estado:'ativo'},
+    ],
+    associacoes:[
+      {id:'ASS-001',nome:'Associação Regional de Futebol de Santiago Sul',sig:'ARFSS',ilha:'Santiago',fed:F.fut,pres:'Manuel Tavares',email:'arfss@cv.cv',estado:'ativo'},
+      {id:'ASS-002',nome:'Associação Regional de Futebol de São Vicente',sig:'ARFSV',ilha:'São Vicente',fed:F.fut,pres:'Filipe Monteiro',email:'arfsv@cv.cv',estado:'ativo'},
+      {id:'ASS-003',nome:'Associação Regional de Basquetebol de Santiago',sig:'ARBS',ilha:'Santiago',fed:F.bas,pres:'Célia Rocha',email:'arbs@cv.cv',estado:'ativo'},
+      {id:'ASS-004',nome:'Associação Regional de Atletismo do Sal',sig:'ARAS',ilha:'Sal',fed:F.atl,pres:'Jorge Neves',email:'aras@cv.cv',estado:'ativo'},
+    ],
+    competicoes:[
+      {id:'CMP-001',nome:`Campeonato Nacional de Futebol ${EP}`,tipo:'Campeonato Nacional',mod:'Futebol',nivel:'nacional',org:F.fut,gen:'Sénior',estado:'ativo',equipas:12,local:'Vários',ini:'2026-10-03',fim:'2027-05-30',fmt:'Liga (todos contra todos)'},
+      {id:'CMP-002',nome:`Campeonato Regional de Basquetebol — Santiago ${EP}`,tipo:'Campeonato Regional',mod:'Basquetebol',nivel:'regional',org:'Associação Regional de Basquetebol de Santiago',gen:'Masculino',estado:'ativo',equipas:8,local:'Praia',ini:'2026-10-10',fim:'2027-03-20'},
+      {id:'CMP-003',nome:'Supertaça Nacional de Andebol 2026',tipo:'Supertaça Nacional',mod:'Andebol',nivel:'nacional',org:F.and,gen:'Sénior',estado:'inscricoes',equipas:2,local:'Mindelo',ini:'2026-11-21',fim:'2026-11-21',praz:'2026-11-10'},
+      {id:'CMP-004',nome:'Torneio de Abertura de Atletismo — Sal 2026',tipo:'Torneio de Abertura',mod:'Atletismo',nivel:'regional',org:'Associação Regional de Atletismo do Sal',gen:'Misto',estado:'inscricoes',equipas:32,local:'Espargos',ini:'2026-11-14',fim:'2026-11-15',praz:'2026-11-07'},
+      {id:'CMP-005',nome:`Taça Nacional de Futebol ${EP}`,tipo:'Taça Nacional',mod:'Futebol',nivel:'nacional',org:F.fut,gen:'Sénior',estado:'preparacao',equipas:12,local:'Vários',ini:'2027-01-10',fim:'2027-06-15'},
+      {id:'CMP-006',nome:'Campeonato Regional de Voleibol — São Vicente',tipo:'Campeonato Regional',mod:'Voleibol',nivel:'regional',org:F.vol,gen:'Feminino',estado:'inscricoes',equipas:6,local:'Mindelo',ini:'2026-11-07',fim:'2027-03-28',praz:'2026-10-31'},
+      {id:'CMP-007',nome:'Campeonato Nacional de Voleibol Feminino 2025/2026',tipo:'Campeonato Nacional',mod:'Voleibol',nivel:'nacional',org:F.vol,gen:'Feminino',estado:'concluida',equipas:6,local:'Ribeira Grande',ini:'2026-07-01',fim:'2026-07-05'},
+    ],
+    licencas:[
+      {id:'LIC-A-847',titular:'João Carvalho',tipo:'Atleta Sénior',epoca:EP,ini:'2026-09-01',validade:EPV,ent:'SC Praia',estado:'ativo'},
+      {id:'LIC-A-842',titular:'Cláudia Ferreira',tipo:'Atleta Sénior',epoca:EP,ini:'2026-09-01',validade:EPV,ent:'AD Barlavento',estado:'ativo'},
+      {id:'LIC-T-003',titular:'Francisco Évora',tipo:'Treinador',epoca:EP,ini:'2026-09-01',validade:EPV,ent:'',estado:'ativo'},
+      {id:'LIC-ARB-001',titular:'António Fonseca',tipo:'Árbitro',epoca:EP,ini:'2026-09-01',validade:EPV,ent:'',estado:'ativo'},
+      {id:'LIC-A-843',titular:'Dinis Silva',tipo:'Atleta Sénior',epoca:seasonPrev(EP),ini:'2025-09-01',validade:seasonEnd(seasonPrev(EP)),ent:'FC Boavista',estado:'ativo'},
+    ],
+    transferencias:[
+      {id:'TRF-001',atleta:'Ana Monteiro',licId:'LIC-2025-00844',origem:'GD Sal',destino:'Sporting CP (Portugal)',tipo:'internacional',menor:false,estado:'pendente',data:'2026-10-20'},
+      {id:'TRF-002',atleta:'Paulo Tavares',licId:'LIC-2025-00820',origem:'FC Boavista',destino:'SC Praia',tipo:'nacional',menor:false,estado:'aprovado',data:'2026-10-14'},
+      {id:'TRF-003',atleta:'Kelvin Neves',licId:'LIC-2025-00811',origem:'EID Mindelo',destino:'Académica',tipo:'nacional',menor:true,estado:'pendente',data:'2026-10-12'},
+    ],
+    validacoes:[
+      {id:'VAL-001',tipo:'Atleta',entidade:'Maria Lopes · LIC-2025-00846',submPor:'Académica',data:'2026-10-25',docs:'BI, Certidão de Nascimento',ref:{col:'atletas',id:'LIC-2025-00846'}},
+      {id:'VAL-002',tipo:'Clube',entidade:'EID Santiago Norte · EID-002',submPor:'Autossubmissão',data:'2026-10-23',docs:'Estatutos, Identificação',ref:{col:'clubes',id:'EID-002'}},
+      {id:'VAL-003',tipo:'ITC',entidade:'Ana Monteiro → Sporting CP (Portugal)',submPor:'GD Sal',data:'2026-10-20',docs:'Contrato, Passaporte',ref:{col:'transferencias',id:'TRF-001'}},
+      {id:'VAL-004',tipo:'Federação',entidade:'Fed. Cabo-verdiana de Natação · FED-005',submPor:'Admin',data:'2026-10-24',docs:'Estatutos',ref:{col:'federacoes',id:'FED-005'}},
+      {id:'VAL-005',tipo:'Atleta',entidade:'Bruno Correia · LIC-2025-00839',submPor:'SC Praia',data:'2026-10-22',docs:'BI',ref:{col:'atletas',id:'LIC-2025-00839'}},
+    ],
+    utilizadores:[
+      {id:'USR-001',nome:'Pedro Moeda',email:'pedromoeda@gmail.com',role:'Administrador',entidade:'Sistema',acesso:'Agora',estado:'ativo'},
+      {id:'USR-002',nome:'José Andrade',email:'jose.andrade@fcf.cv',role:'Federação Nacional',entidade:F.fut,acesso:'há 2h',estado:'ativo'},
+      {id:'USR-003',nome:'Manuel Correia',email:'scpraia@cv.cv',role:'Clube / EID',entidade:'SC Praia',acesso:'hoje',estado:'ativo'},
+      {id:'USR-004',nome:'Ana Lima',email:'fcb@desporto.cv',role:'Federação Nacional',entidade:F.bas,acesso:'ontem',estado:'ativo'},
+    ],
+    atividade:[
+      {txt:'Registo de <b>João Carvalho</b> aprovado',cor:'gn',ts:T-12*60000},
+      {txt:'ITC solicitado — <b>Ana Monteiro</b> para Portugal',cor:'gd',ts:T-H},
+      {txt:'Nova federação submetida: <b>Fed. Cabo-verdiana de Natação</b>',cor:'ac',ts:T-2*H},
+      {txt:'Novo pedido de registo: <b>EID Santiago Norte</b>',cor:'ac',ts:T-3*H},
+      {txt:'Transferência recusada — documentos em falta',cor:'rd',ts:T-5*H},
+      {txt:'Campeonato Regional de Voleibol — inscrições abertas',cor:'gn',ts:T-26*H},
+    ]
+  };
+}
+
+// ─── PERSISTÊNCIA ───
+function load(){
+  try { const raw=localStorage.getItem(STORE_KEY); if(raw){ const d=JSON.parse(raw); if(d && d._v===2) return d; } } catch(e){}
+  return buildSeed();
+}
+let DB = load();
+function save(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(DB)); } catch(e){ toast('⚠️','Não foi possível guardar','O armazenamento do navegador está cheio ou bloqueado'); } }
+function log(txt, cor='ac'){ DB.atividade.unshift({txt,cor,ts:Date.now()}); DB.atividade = DB.atividade.slice(0,40); }
+function commit(){ save(); refreshAll(); }
+const find = (col,id) => DB[col].find(x=>x.id===id);
+
+let editingId = null;
+let currentPage = 'dashboard';
+const FILTER = {atl:'todos', comp:'todos', trans:'todos'};
+
+// ─── NAVEGAÇÃO ───
+const TITLES = {dashboard:'Dashboard',atletas:'Atletas',clubes:'Clubes / EID',oficiais:'Árbitros e Oficiais',federacoes:'Federações Nacionais',associacoes:'Associações Regionais',competicoes:'Competições Oficiais',licencas:'Licenças',transferencias:'Transferências',validacoes:'Validações Pendentes',relatorios:'Relatórios',utilizadores:'Utilizadores',configuracoes:'Configurações'};
+const TB_ACTION = {dashboard:['＋ Registar Atleta','m-atleta'],atletas:['＋ Novo Atleta','m-atleta'],clubes:['＋ Registar Entidade','m-clube'],oficiais:['＋ Novo Oficial','m-oficial'],federacoes:['＋ Nova Federação','m-fed'],associacoes:['＋ Nova Associação','m-assoc'],competicoes:['＋ Nova Competição','m-comp'],licencas:['＋ Emitir Licença','m-lic'],transferencias:['＋ Nova Transferência','m-trans'],utilizadores:['＋ Novo Utilizador','m-user']};
+
+function nav(el, page){
+  if(!$('page-'+page)) page='dashboard';
+  currentPage = page;
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  (el || document.querySelector(`.ni[onclick*="'${page}'"]`))?.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  $('page-'+page).classList.add('active');
+  $('tb-title').textContent = TITLES[page] || page;
+  const act = TB_ACTION[page], btn = $('tb-btn');
+  if(act){ btn.style.display=''; btn.textContent=act[0]; btn.onclick=()=>openNew(act[1]); } else btn.style.display='none';
+  try { history.replaceState(null,'','#'+page); } catch(e){}
+  closeDetail(); toggleSb(false);
+  renderPage(page);
+  window.scrollTo(0,0);
+}
+function navTo(page){ nav(null, page); }
+function toggleSb(force){ $('sb').classList.toggle('open', force); }
+
+// ─── RENDER GERAL ───
+function refreshAll(){ updateCounters(); fillSelects(); renderPage(currentPage); }
+function renderPage(page){
+  ({dashboard:renderDashboard, atletas:()=>renderAtletas(FILTER.atl), clubes:renderClubes, oficiais:renderOficiais, federacoes:renderFederacoes, associacoes:renderAssociacoes, competicoes:()=>renderComps(FILTER.comp), licencas:renderLicencas, transferencias:()=>renderTransferencias(FILTER.trans), validacoes:renderValidacoes, relatorios:renderRelatorios, utilizadores:renderUtilizadores, configuracoes:loadConfig}[page] || (()=>{}))();
+}
+
+const BADGES = {ativo:['b-a','Ativo'],pendente:['b-p','Pendente'],transferencia:['b-t','Transferência'],transferido:['b-c','Transferido'],suspenso:['b-s','Suspenso'],aprovado:['b-a','Aprovado'],recusado:['b-s','Recusado'],inscricoes:['b-p','Inscrições'],preparacao:['b-c','Em preparação'],concluida:['b-c','Concluída'],expirada:['b-s','Expirada'],nacional:['b-n','Nacional'],regional:['b-r','Regional'],internacional:['b-t','Internacional']};
+function stBadge(s){ const b=BADGES[s]; return b ? `<span class="bdg ${b[0]}">${b[1]}</span>` : `<span class="bdg b-c">${esc(s)}</span>`; }
+const BTN_DEL = 'class="btn btn-xs" style="background:var(--rdd);color:var(--rd);border:1px solid rgba(255,59,92,.2)"';
+
+function avatarColor(i){ const c=[['var(--acd)','var(--ac)'],['var(--gdd)','var(--gd)'],['var(--gnd)','var(--gn)'],['var(--rdd)','var(--rd)'],['var(--pud)','var(--pu)']]; return c[i%c.length]; }
+function avHtml(name, idx, sq, foto){
+  if(foto) return `<div class="av${sq?' av-sq':''}" style="background:url('${foto}') center/cover"></div>`;
+  const [bg,col]=avatarColor(idx); const ini=String(name||'?').split(' ').filter(Boolean).map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  return `<div class="av${sq?' av-sq':''}" style="background:${bg};color:${col}">${esc(ini)}</div>`;
+}
+const emptyRow = (cols, ic, txt) => `<tr><td colspan="${cols}"><div class="empty"><div class="empty-ic">${ic}</div><div class="empty-t">${txt}</div></div></td></tr>`;
+const clubCount = nome => DB.atletas.filter(a=>a.clube===nome && !['recusado','transferido'].includes(a.estado)).length;
+const fedCount = nome => DB.clubes.filter(c=>c.fed===nome && c.estado!=='recusado').length;
+const assocCount = a => DB.clubes.filter(c=>c.ilha===a.ilha && c.fed===a.fed && c.estado!=='recusado').length;
+function licState(l){ if(l.estado==='pendente') return 'pendente'; return l.validade && l.validade < todayISO() ? 'expirada' : 'ativo'; }
+
+// ─── CONTADORES ───
+function setTxt(id,v){ const e=$(id); if(e) e.textContent=v; }
+function setHtml(id,v){ const e=$(id); if(e) e.innerHTML=v; }
+function updateCounters(){
+  const A=DB.atletas, now=new Date();
+  const mes=A.filter(a=>a.criado && new Date(a.criado).getMonth()===now.getMonth() && new Date(a.criado).getFullYear()===now.getFullYear()).length;
+  const pend=A.filter(a=>a.estado==='pendente').length;
+  setTxt('st-atl', A.length); setHtml('st-atl-d', `<b>+${mes}</b> este mês · ${pend} pendente${pend===1?'':'s'}`);
+  const C=DB.clubes; setTxt('st-clu', C.length); setHtml('st-clu-d', `<b>${C.filter(c=>c.tipo==='EID').length}</b> EID · ${C.filter(c=>c.estado==='pendente').length} pendente(s)`);
+  const T=DB.transferencias.filter(t=>t.estado==='pendente'), itc=T.filter(t=>t.tipo==='internacional').length;
+  setTxt('st-trf', T.length); setHtml('st-trf-d', itc ? `<span style="color:var(--rd)">${itc} aguardam ITC</span>` : 'Sem ITC pendentes');
+  const CA=DB.competicoes.filter(c=>c.estado==='ativo'), ilhas=new Set(CA.map(c=>c.local)).size;
+  setTxt('st-cmp', CA.length); setHtml('st-cmp-d', `<b>${DB.competicoes.filter(c=>c.estado==='inscricoes').length}</b> com inscrições abertas`);
+  const V=DB.validacoes.length; setTxt('st-val', V); setHtml('st-val-d', V ? '<span style="color:var(--gd)">Requer ação</span>' : '<span style="color:var(--gn)">Tudo em dia</span>');
+  [['np-atl',A.length],['np-cmp',CA.length],['np-trf',T.length],['np-val',V]].forEach(([id,n])=>{ const e=$(id); if(e){ e.textContent=n; e.style.display=n?'':'none'; } });
+  setTxt('clu-count', `${C.length} entidades registadas`);
+  setTxt('trf-count', `${T.length} processos pendentes · ${itc} aguardam ITC`);
+  setTxt('val-count', V ? `${V} itens aguardam aprovação` : 'Sem pedidos pendentes');
+}
+
+// ─── SELECTS DINÂMICOS ───
+function opts(id, list, ph){
+  const el=$(id); if(!el) return; const cur=el.value;
+  el.innerHTML=(ph!==undefined?`<option value="">${esc(ph)}</option>`:'') + list.map(v=>`<option>${esc(v)}</option>`).join('');
+  if(list.includes(cur)) el.value=cur;
+}
+function fillSelects(){
+  const clubs=DB.clubes.filter(c=>c.estado!=='recusado').map(c=>c.nome).sort((a,b)=>a.localeCompare(b,'pt'));
+  const feds=DB.federacoes.filter(f=>f.estado!=='recusado').map(f=>f.nome);
+  const assocs=DB.associacoes.filter(a=>a.estado!=='recusado').map(a=>a.nome);
+  opts('a-clube',clubs,'Selecionar entidade…'); opts('t-orig',clubs,'Selecionar…'); opts('l-ent',clubs,'— Nenhuma —');
+  opts('c-fed',feds,'Selecionar federação…'); opts('as-fed',feds,'Selecionar federação…');
+  opts('cp-org',[...feds,...assocs],'Selecionar…'); opts('u-ent',[...clubs,...feds,...assocs],'Selecionar entidade…');
+  const ep=DB.config.epoca; opts('l-epoca',[seasonPrev(ep),ep,seasonNext(ep)]);
+  setHtml('dl-atl', DB.atletas.filter(a=>!['recusado','transferido'].includes(a.estado)).map(a=>`<option value="${esc(a.nome)} · ${a.id}">`).join(''));
+  setHtml('dl-tit', [...DB.atletas.map(a=>a.nome), ...DB.oficiais.map(o=>o.nome)].map(n=>`<option value="${esc(n)}">`).join(''));
+}
+
+// ─── DASHBOARD ───
+function triRow(t,i){
+  return `<div class="tri" onclick="showDetail('trans','${t.id}')">${avHtml(t.atleta,i+3)}<div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">${esc(t.atleta)}</div><div class="tr-route">${esc(t.origem)} <span class="tr-arrow">→</span> ${esc(t.destino)}</div></div><div style="text-align:right">${stBadge(t.estado)}<div class="tr-type">${t.tipo==='internacional'?'Internacional':'Nacional'}${t.menor?' · Menor':''}</div></div></div>`;
+}
+function renderDashboard(){
+  setHtml('dash-atl', DB.atletas.slice(0,5).map((a,i)=>`
+    <tr onclick="showDetail('atleta','${a.id}')">
+      <td><div class="cp">${avHtml(a.nome,i,false,a.foto)}<div><div class="pn">${esc(a.nome)}</div><div class="pid">${a.id}</div></div></div></td>
+      <td style="color:var(--mt)">${esc(a.clube)}</td><td>${esc(a.mod)}</td><td>${stBadge(a.estado)}</td>
+      <td><div class="ar"><button class="btn btn-g btn-xs" title="Editar" onclick="event.stopPropagation();openEdit('atleta','${a.id}')">✏</button></div></td>
+    </tr>`).join('') || emptyRow(5,'👤','Sem atletas'));
+  setHtml('dash-act', DB.atividade.slice(0,7).map(a=>`<div class="ai"><div class="adot" style="background:var(--${a.cor})"></div><div><div class="at">${a.txt}</div><div class="atime">${timeAgo(a.ts)}</div></div></div>`).join('') || '<div class="empty-s" style="padding:18px">Sem atividade</div>');
+  setHtml('dash-trf', DB.transferencias.slice(0,3).map(triRow).join('') || '<div class="empty-s" style="padding:18px">Sem transferências</div>');
+  setHtml('dash-cmp', DB.competicoes.filter(c=>['ativo','inscricoes'].includes(c.estado)).slice(0,3).map(c=>`<div class="tri" onclick="showDetail('comp','${c.id}')"><div style="font-size:22px;width:36px;text-align:center">${MOD_EMOJI[c.mod]||'🏆'}</div><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px">${esc(c.nome)}</div><div class="tr-route">${esc(c.org)} · ${c.equipas} equipas</div></div>${stBadge(c.estado)}</div>`).join('') || '<div class="empty-s" style="padding:18px">Sem competições ativas</div>');
+}
+
+// ─── LISTAGENS ───
+function renderAtletas(filter){
+  FILTER.atl=filter;
+  const data = filter==='todos' ? DB.atletas : DB.atletas.filter(a=>a.estado===filter);
+  setTxt('atl-count', `${data.length} atletas ${filter==='todos'?'registados no sistema':'neste filtro'}`);
+  setHtml('atl-tbody', data.length ? data.map((a,i)=>`
+    <tr onclick="showDetail('atleta','${a.id}')">
+      <td><div class="cp">${avHtml(a.nome,i,false,a.foto)}<div><div class="pn">${esc(a.nome)}</div><div class="pid">${a.id}</div></div></div></td>
+      <td style="color:var(--mt)">${esc(a.clube)}</td><td>${esc(a.mod)}</td><td>${esc(a.ilha)}</td>
+      <td style="color:var(--mt)">${fmtDate(a.nasc)}<div class="pid">${escalao(age(a.nasc))}</div></td>
+      <td>${stBadge(a.estado)}</td>
+      <td><div class="ar"><button class="btn btn-g btn-xs" onclick="event.stopPropagation();openEdit('atleta','${a.id}')">✏ Editar</button><button ${BTN_DEL} title="Remover" onclick="event.stopPropagation();deleteItem('atleta','${a.id}')">🗑</button></div></td>
+    </tr>`).join('') : emptyRow(7,'👤','Nenhum atleta encontrado'));
+}
+function renderClubes(){
+  setHtml('clu-tbody', DB.clubes.length ? DB.clubes.map((c,i)=>`
+    <tr onclick="showDetail('clube','${c.id}')">
+      <td><div class="cp">${avHtml(c.nome,i,true)}<div><div class="pn">${esc(c.nome)}</div><div class="pid">${c.id}</div></div></div></td>
+      <td>${esc(c.tipo)}</td><td style="color:var(--mt)">${esc(c.fed)}</td><td>${esc(c.ilha)}</td><td>${clubCount(c.nome)}</td><td>${stBadge(c.estado)}</td>
+      <td><div class="ar"><button class="btn btn-g btn-xs" onclick="event.stopPropagation();openEdit('clube','${c.id}')">✏ Editar</button><button ${BTN_DEL} title="Remover" onclick="event.stopPropagation();deleteItem('clube','${c.id}')">🗑</button></div></td>
+    </tr>`).join('') : emptyRow(7,'🏛','Nenhuma entidade registada'));
+}
+function renderOficiais(){
+  setHtml('ofi-tbody', DB.oficiais.length ? DB.oficiais.map((o,i)=>`
+    <tr onclick="showDetail('oficial','${o.id}')">
+      <td><div class="cp">${avHtml(o.nome,i)}<div><div class="pn">${esc(o.nome)}</div><div class="pid">${o.id}</div></div></div></td>
+      <td>${esc(o.func)}</td><td>${esc(o.mod)}</td><td>${stBadge(norm(o.cat))}</td><td>${esc(o.ilha)}</td><td>${stBadge(o.estado)}</td>
+      <td><div class="ar"><button class="btn btn-g btn-xs" onclick="event.stopPropagation();openEdit('oficial','${o.id}')">✏ Editar</button><button ${BTN_DEL} title="Remover" onclick="event.stopPropagation();deleteItem('oficial','${o.id}')">🗑</button></div></td>
+    </tr>`).join('') : emptyRow(7,'🟡','Nenhum oficial registado'));
+}
+function renderFederacoes(){
+  setHtml('fed-tbody', DB.federacoes.map((f,i)=>`
+    <tr onclick="showDetail('federacao','${f.id}')">
+      <td><div class="cp">${avHtml(f.nome.replace('Federação Cabo-verdiana de ',''),i,true)}<div><div class="pn">${esc(f.nome)}</div><div class="pid">${esc(f.sig)} · ${esc(f.afil||'—')}</div></div></div></td>
+      <td>${esc(f.mod)}</td><td style="color:var(--mt)">${esc(f.sede)}</td><td>${esc(f.pres)}</td><td>${fedCount(f.nome)}</td><td>${stBadge(f.estado)}</td>
+      <td><div class="ar"><button class="btn btn-g btn-xs" onclick="event.stopPropagation();openEdit('fed','${f.id}')">✏ Editar</button><button ${BTN_DEL} title="Remover" onclick="event.stopPropagation();deleteItem('fed','${f.id}')">🗑</button></div></td>
+    </tr>`).join('') || emptyRow(7,'🏅','Nenhuma federação'));
+}
+function renderAssociacoes(){
+  setHtml('ass-tbody', DB.associacoes.map((a,i)=>`
+    <tr onclick="showDetail('assoc','${a.id}')">
+      <td><div class="cp">${avHtml(a.sig||a.nome,i,true)}<div><div class="pn">${esc(a.nome)}</div><div class="pid">${esc(a.sig)}</div></div></div></td>
+      <td>${esc(a.ilha)}</td><td style="color:var(--mt)">${esc(a.fed)}</td><td>${esc(a.pres)}</td><td>${assocCount(a)}</td><td>${stBadge(a.estado)}</td>
+      <td><div class="ar"><button class="btn btn-g btn-xs" onclick="event.stopPropagation();openEdit('assoc','${a.id}')">✏ Editar</button><button ${BTN_DEL} title="Remover" onclick="event.stopPropagation();deleteItem('assoc','${a.id}')">🗑</button></div></td>
+    </tr>`).join('') || emptyRow(7,'🗺','Nenhuma associação'));
+}
+function renderComps(filter){
+  FILTER.comp=filter;
+  const data = filter==='todos' ? DB.competicoes : DB.competicoes.filter(c=>c.nivel===filter || c.estado===filter);
+  setHtml('comp-grid', data.length ? data.map(c=>`
+    <div class="ccard">
+      <div class="ccard-top"><div class="ccard-ic">${MOD_EMOJI[c.mod]||'🏆'}</div>
+        <div style="flex:1;min-width:0"><div class="ccard-n">${esc(c.nome)}</div><div class="ccard-m">${esc(c.org)} · ${esc(c.gen)}</div>
+        <div style="margin-top:6px;display:flex;gap:6px;align-items:center;flex-wrap:wrap">${stBadge(c.estado)} ${stBadge(c.nivel)}</div></div></div>
+      <div class="ccard-ft"><div><div class="ccard-st"><b>${c.equipas||'—'}</b> equipas · ${esc(c.local||'—')}</div><div class="ccard-st">${fmtDate(c.ini)} → ${fmtDate(c.fim)}</div></div>
+        <div style="display:flex;gap:6px"><button class="btn btn-g btn-xs" onclick="openEdit('comp','${c.id}')">✏</button><button class="btn btn-p btn-xs" onclick="showDetail('comp','${c.id}')">Ver</button></div></div>
+    </div>`).join('') : '<div style="grid-column:1/-1"><div class="empty"><div class="empty-ic">🏆</div><div class="empty-t">Nenhuma competição encontrada</div></div></div>');
+}
+function renderLicencas(){
+  setHtml('lic-tbody', DB.licencas.length ? DB.licencas.map((l,i)=>`
+    <tr>
+      <td><div class="cp">${avHtml(l.titular,i)}<div><div class="pn">${esc(l.titular)}</div><div class="pid">${l.id}${l.ent?' · '+esc(l.ent):''}</div></div></div></td>
+      <td>${esc(l.tipo)}</td><td>${esc(l.epoca)}</td><td>${fmtDate(l.validade)}</td><td>${stBadge(licState(l))}</td>
+      <td><div class="ar"><button class="btn btn-g btn-xs" onclick="printLic('${l.id}')">📄 PDF</button><button class="btn btn-g btn-xs" onclick="renovarLic('${l.id}')">♻ Renovar</button><button ${BTN_DEL} title="Remover" onclick="deleteItem('lic','${l.id}')">🗑</button></div></td>
+    </tr>`).join('') : emptyRow(6,'📋','Nenhuma licença emitida'));
+}
+function renderTransferencias(filter){
+  FILTER.trans=filter;
+  const data = filter==='todos' ? DB.transferencias : filter==='menor' ? DB.transferencias.filter(t=>t.menor) : DB.transferencias.filter(t=>t.tipo===filter);
+  setHtml('trans-tbody', data.length ? data.map((t,i)=>`
+    <tr onclick="showDetail('trans','${t.id}')">
+      <td><div class="cp">${avHtml(t.atleta,i)}<div><div class="pn">${esc(t.atleta)}</div><div class="pid">${esc(t.licId)}</div></div></div></td>
+      <td style="color:var(--mt)">${esc(t.origem)}</td><td>${esc(t.destino)}</td>
+      <td>${stBadge(t.tipo)}${t.menor?' <span class="bdg" style="background:var(--rdd);color:var(--rd);font-size:9px">MENOR</span>':''}</td>
+      <td>${stBadge(t.estado)}</td><td style="color:var(--mt)">${fmtDate(t.data)}</td>
+      <td><div class="ar">${t.estado==='pendente'
+        ? `<button class="btn btn-p btn-xs" onclick="event.stopPropagation();aprovarTrans('${t.id}')">✓ Aprovar</button><button ${BTN_DEL} onclick="event.stopPropagation();recusarTrans('${t.id}')">✕</button>`
+        : `<button ${BTN_DEL} title="Remover" onclick="event.stopPropagation();deleteItem('trans','${t.id}')">🗑</button>`}</div></td>
+    </tr>`).join('') : emptyRow(7,'↔','Nenhuma transferência encontrada'));
+}
+function renderValidacoes(){
+  setHtml('val-tbody', DB.validacoes.length ? DB.validacoes.map(v=>`
+    <tr>
+      <td><span class="bdg b-t">${esc(v.tipo)}</span></td><td style="font-weight:600">${esc(v.entidade)}</td>
+      <td style="color:var(--mt)">${esc(v.submPor)}</td><td style="color:var(--mt)">${fmtDate(v.data)}</td><td style="color:var(--mt);font-size:12px">${esc(v.docs||'—')}</td>
+      <td><div class="ar"><button class="btn btn-p btn-xs" onclick="aprovarVal('${v.id}')">✓ Aprovar</button><button ${BTN_DEL} onclick="recusarVal('${v.id}')">✕ Recusar</button></div></td>
+    </tr>`).join('') : emptyRow(6,'✅','Sem pedidos pendentes'));
+}
+function renderUtilizadores(){
+  setHtml('usr-tbody', DB.utilizadores.map((u,i)=>`
+    <tr>
+      <td><div class="cp">${avHtml(u.nome,i)}<div><div class="pn">${esc(u.nome)}</div><div class="pid">${esc(u.email)}</div></div></div></td>
+      <td>${esc(u.role)}</td><td style="color:var(--mt)">${esc(u.entidade||'—')}</td><td style="color:var(--mt)">${esc(u.acesso)}</td><td>${stBadge(u.estado)}</td>
+      <td><div class="ar"><button class="btn btn-g btn-xs" onclick="openEdit('user','${u.id}')">✏ Editar</button><button class="btn btn-g btn-xs" onclick="toast('🔑','Pedido de reposição registado','Requer servidor de email (fase 2)')">🔑 Reset</button>${u.id!=='USR-001'?`<button ${BTN_DEL} title="Remover" onclick="deleteItem('user','${u.id}')">🗑</button>`:''}</div></td>
+    </tr>`).join(''));
+}
+
+// ─── RELATÓRIOS ───
+function reportData(){
+  const A=DB.atletas.filter(a=>!['recusado','transferido'].includes(a.estado)), n=A.length||1;
+  const m=A.filter(a=>a.gen==='Masculino').length, f=A.filter(a=>a.gen==='Feminino').length;
+  const mods=countBy(A,a=>a.mod), ilhas=countBy(A,a=>a.ilha);
+  const ord=['Sub-14','Sub-16','Sub-18','Sub-21','Sénior'];
+  const esc_=countBy(A,a=>escalao(age(a.nasc))).sort((a,b)=>ord.indexOf(a[0])-ord.indexOf(b[0]));
+  const clubes=countBy(A,a=>a.clube).slice(0,6);
+  const ativos=DB.clubes.filter(c=>c.estado==='ativo').length||1;
+  return {A,n,m,f,mods,ilhas,esc:esc_,clubes,avg:(A.length/ativos).toFixed(1)};
+}
+function renderRelatorios(){
+  const r=reportData();
+  setTxt('rp-m',r.m); setTxt('rp-m-d',`${(r.m/r.n*100).toFixed(1)}% do total`);
+  setTxt('rp-f',r.f); setTxt('rp-f-d',`${(r.f/r.n*100).toFixed(1)}% do total`);
+  const tm=r.mods[0]||['—',0], ti=r.ilhas[0]||['—',0];
+  setTxt('rp-mod',`${MOD_EMOJI[tm[0]]||''} ${tm[0].toUpperCase()}`); setTxt('rp-mod-d',`${tm[1]} atletas`);
+  setTxt('rp-ilha',ti[0].toUpperCase()); setTxt('rp-ilha-d',`${ti[1]} atletas`);
+  setTxt('rp-avg',r.avg);
+  renderBar('chart-modalidade',r.mods,'var(--ac)'); renderBar('chart-ilha',r.ilhas,'var(--gd)');
+  renderBar('chart-escalao',r.esc,'var(--gn)'); renderBar('chart-clube',r.clubes,'var(--pu)');
+}
+function renderBar(id, data, color){
+  const el=$(id); if(!el) return;
+  if(!data.length){ el.innerHTML='<div class="empty-s">Sem dados</div>'; return; }
+  const max=Math.max(...data.map(d=>d[1]));
+  el.innerHTML=data.map(([label,val])=>`
+    <div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span>${esc(label)}</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700">${val}</span></div>
+    <div style="height:6px;background:var(--sf3);border-radius:3px;overflow:hidden"><div style="height:100%;background:${color};width:${(val/max*100).toFixed(1)}%;border-radius:3px;transition:width .5s"></div></div></div>`).join('');
+}
+
+// ─── PAINEL DE DETALHE ───
+function dRow(l,v){ return `<div><div class="il">${l}</div><div class="iv">${v||'—'}</div></div>`; }
+function showDetail(type, id){
+  const dp=$('detail-panel'), title=$('dp-title'), body=$('dp-body');
+  let h='';
+  if(type==='atleta'){
+    const a=find('atletas',id); if(!a) return; const ag=age(a.nasc);
+    const lics=DB.licencas.filter(l=>l.titular===a.nome), trs=DB.transferencias.filter(t=>t.licId===a.id);
+    title.textContent='Ficha do Atleta';
+    h=`<div style="text-align:center;margin-bottom:20px"><div style="display:flex;justify-content:center">${avHtml(a.nome,0,false,a.foto)}</div>
+      <div style="font-size:18px;font-weight:700;margin:10px 0 4px">${esc(a.nome)}</div><div style="color:var(--mt);font-size:13px">${a.id}</div><div style="margin-top:10px">${stBadge(a.estado)}</div></div>
+      <div class="info-g">${dRow('Clube',esc(a.clube))}${dRow('Modalidade',esc(a.mod))}${dRow('Ilha',esc(a.ilha))}${dRow('Nascimento',fmtDate(a.nasc))}${dRow('Género',esc(a.gen))}${dRow('Idade / Escalão',ag!==null?`${ag} anos · ${escalao(ag)}`:'')}${dRow('Documento',esc([a.doc,a.docnum].filter(Boolean).join(' · ')))}${dRow('Contacto',esc(a.tel))}${dRow('Posição',esc(a.pos))}${dRow('Nº camisola',esc(a.num))}</div>
+      <div class="dsec">Licenças</div>${lics.length?lics.map(l=>`<div class="mini"><span>${esc(l.tipo)} · ${esc(l.epoca)}</span>${stBadge(licState(l))}</div>`).join(''):'<div class="empty-s">Sem licença emitida</div>'}
+      <div class="dsec">Histórico de transferências</div>${trs.length?trs.map(t=>`<div class="mini"><span>${esc(t.origem)} → ${esc(t.destino)} · ${fmtDate(t.data)}</span>${stBadge(t.estado)}</div>`).join(''):'<div class="empty-s">Sem transferências</div>'}
+      <div style="display:flex;gap:8px;margin-top:18px"><button class="btn btn-p" style="flex:1" onclick="closeDetail();openEdit('atleta','${a.id}')">✏ Editar</button><button class="btn btn-g" style="flex:1" onclick="closeDetail();openTransFor('${a.id}')">↔ Transferência</button></div>`;
+  }
+  if(type==='clube'){
+    const c=find('clubes',id); if(!c) return; const at=DB.atletas.filter(a=>a.clube===c.nome);
+    title.textContent='Ficha do Clube';
+    h=`<div style="text-align:center;margin-bottom:20px"><div style="display:flex;justify-content:center">${avHtml(c.nome,1,true)}</div><div style="font-size:18px;font-weight:700;margin:10px 0 4px">${esc(c.nome)}</div><div style="color:var(--mt);font-size:13px">${esc(c.tipo)} · ${c.id}</div><div style="margin-top:10px">${stBadge(c.estado)}</div></div>
+      <div class="info-g">${dRow('Federação',`<span style="font-size:12px">${esc(c.fed)}</span>`)}${dRow('Ilha',esc(c.ilha))}${dRow('Presidente',esc(c.pres))}${dRow('Atletas',at.length)}${dRow('Email',`<span style="font-size:12px">${esc(c.email)}</span>`)}${dRow('Contacto',esc(c.tel))}</div>
+      <div class="dsec">Atletas (${at.length})</div>${at.slice(0,12).map(a=>`<div class="mini" style="cursor:pointer" onclick="showDetail('atleta','${a.id}')"><span>${esc(a.nome)} · ${esc(a.mod)}</span>${stBadge(a.estado)}</div>`).join('')||'<div class="empty-s">Sem atletas</div>'}${at.length>12?`<div class="empty-s" style="margin-top:6px">+ ${at.length-12} atletas</div>`:''}
+      <div style="margin-top:16px"><button class="btn btn-p" style="width:100%" onclick="closeDetail();openEdit('clube','${c.id}')">✏ Editar Dados</button></div>`;
+  }
+  if(type==='oficial'){
+    const o=find('oficiais',id); if(!o) return; title.textContent='Árbitro / Oficial';
+    h=`<div style="text-align:center;margin-bottom:20px"><div style="display:flex;justify-content:center">${avHtml(o.nome,2)}</div><div style="font-size:18px;font-weight:700;margin:10px 0 4px">${esc(o.nome)}</div><div style="color:var(--mt);font-size:13px">${o.id}</div><div style="margin-top:10px">${stBadge(o.estado)}</div></div>
+      <div class="info-g">${dRow('Função',esc(o.func))}${dRow('Modalidade',esc(o.mod))}${dRow('Categoria',esc(o.cat))}${dRow('Ilha',esc(o.ilha))}${dRow('Licença',esc(o.lic))}${dRow('Contacto',esc(o.tel))}</div>
+      <div style="margin-top:16px"><button class="btn btn-p" style="width:100%" onclick="closeDetail();openEdit('oficial','${o.id}')">✏ Editar</button></div>`;
+  }
+  if(type==='federacao'){
+    const f=find('federacoes',id); if(!f) return; title.textContent='Federação Nacional';
+    h=`<div style="text-align:center;margin-bottom:20px"><div style="display:flex;justify-content:center">${avHtml(f.mod,2,true)}</div><div style="font-size:16px;font-weight:700;margin:10px 0 4px">${esc(f.nome)}</div><div style="color:var(--mt);font-size:13px">${esc(f.sig)} · ${esc(f.afil)}</div><div style="margin-top:10px">${stBadge(f.estado)}</div></div>
+      <div class="info-g">${dRow('Modalidade',esc(f.mod))}${dRow('Sede',esc(f.sede))}${dRow('Presidente',esc(f.pres))}${dRow('Nº Clubes',fedCount(f.nome))}${dRow('Email',`<span style="font-size:12px">${esc(f.email)}</span>`)}${dRow('Afiliação',esc(f.afil))}</div>
+      <div style="margin-top:16px"><button class="btn btn-p" style="width:100%" onclick="closeDetail();openEdit('fed','${f.id}')">✏ Editar Federação</button></div>`;
+  }
+  if(type==='assoc'){
+    const a=find('associacoes',id); if(!a) return; title.textContent='Associação Regional';
+    h=`<div style="margin-bottom:16px"><div style="font-size:16px;font-weight:700">${esc(a.nome)}</div><div style="color:var(--mt);font-size:13px">${esc(a.sig)} · ${a.id}</div><div style="margin-top:8px">${stBadge(a.estado)}</div></div>
+      <div class="info-g">${dRow('Ilha',esc(a.ilha))}${dRow('Presidente',esc(a.pres))}${dRow('Federação',`<span style="font-size:12px">${esc(a.fed)}</span>`)}${dRow('Clubes',assocCount(a))}${dRow('Email',`<span style="font-size:12px">${esc(a.email)}</span>`)}${dRow('Telefone',esc(a.tel))}</div>
+      <div style="margin-top:16px"><button class="btn btn-p" style="width:100%" onclick="closeDetail();openEdit('assoc','${a.id}')">✏ Editar</button></div>`;
+  }
+  if(type==='comp'){
+    const c=find('competicoes',id); if(!c) return; title.textContent='Competição Oficial';
+    const prox = c.estado==='preparacao' ? ['inscricoes','📋 Abrir inscrições'] : c.estado==='inscricoes' ? ['ativo','▶ Iniciar competição'] : c.estado==='ativo' ? ['concluida','🏁 Concluir'] : null;
+    h=`<div style="text-align:center;margin-bottom:16px;font-size:48px">${MOD_EMOJI[c.mod]||'🏆'}</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">${esc(c.nome)}</div>
+      <div style="margin-bottom:14px;display:flex;gap:6px">${stBadge(c.estado)} ${stBadge(c.nivel)}</div>
+      <div class="info-g">${dRow('Tipo',`<span style="font-size:12px">${esc(c.tipo)}</span>`)}${dRow('Modalidade',esc(c.mod))}${dRow('Organizador',`<span style="font-size:12px">${esc(c.org)}</span>`)}${dRow('Género / Escalão',esc(c.gen))}${dRow('Equipas',c.equipas)}${dRow('Local',esc(c.local))}${dRow('Início',fmtDate(c.ini))}${dRow('Fim',fmtDate(c.fim))}${dRow('Prazo inscrições',fmtDate(c.praz))}${dRow('Formato',`<span style="font-size:12px">${esc(c.fmt)}</span>`)}</div>
+      ${c.obs?`<div class="dsec">Regulamento</div><div style="font-size:13px;line-height:1.5">${esc(c.obs)}</div>`:''}
+      <div style="margin-top:16px;display:flex;gap:8px"><button class="btn btn-g" style="flex:1" onclick="closeDetail();openEdit('comp','${c.id}')">✏ Editar</button>${prox?`<button class="btn btn-p" style="flex:1" onclick="setCompEstado('${c.id}','${prox[0]}')">${prox[1]}</button>`:''}</div>
+      <button class="btn btn-d btn-sm" style="width:100%;margin-top:8px;justify-content:center" onclick="deleteItem('comp','${c.id}')">🗑 Remover competição</button>`;
+  }
+  if(type==='trans'){
+    const t=find('transferencias',id); if(!t) return; title.textContent='Processo de Transferência';
+    h=`<div style="margin-bottom:16px"><div style="font-size:16px;font-weight:700">${esc(t.atleta)}</div><div style="color:var(--mt);font-size:13px">${esc(t.licId)} · ${t.id}</div></div>
+      <div class="info-g">${dRow('Origem',esc(t.origem))}${dRow('Destino',esc(t.destino))}${dRow('Tipo',stBadge(t.tipo))}${dRow('Menor',t.menor?'<span style="color:var(--rd)">Sim — requer autorização parental</span>':'Não')}${dRow('Estado',stBadge(t.estado))}${dRow('Data',fmtDate(t.data))}</div>
+      ${t.obs?`<div class="dsec">Observações</div><div style="font-size:13px">${esc(t.obs)}</div>`:''}
+      ${t.estado==='pendente'?`<div style="display:flex;gap:8px;margin-top:16px"><button class="btn btn-p" style="flex:1" onclick="aprovarTrans('${t.id}');closeDetail()">✓ Aprovar</button><button class="btn btn-d" style="flex:1" onclick="recusarTrans('${t.id}');closeDetail()">✕ Recusar</button></div>`:''}`;
+  }
+  body.innerHTML=h; dp.classList.add('open');
+}
+function closeDetail(){ $('detail-panel').classList.remove('open'); }
+
+// ─── FORMULÁRIOS (genéricos) ───
+const FORMS = {
+  atleta:{m:'m-atleta',col:'atletas',title:'Registar Novo Atleta',f:{nome:'a-nome',nasc:'a-nasc',gen:'a-gen',nat:'a-nat',mor:'a-mor',tel:'a-tel',email:'a-email',clube:'a-clube',mod:'a-mod',pos:'a-pos',num:'a-num',ilha:'a-ilha',doc:'a-doc',docnum:'a-docnum',obs:'a-obs',foto:'a-foto'},req:['nome','nasc','gen','clube','mod','ilha','docnum']},
+  clube:{m:'m-clube',col:'clubes',title:'Registar Clube / EID',f:{nome:'c-nome',tipo:'c-tipo',sig:'c-sig',ano:'c-ano',fed:'c-fed',pres:'c-pres',tel:'c-tel',email:'c-email',web:'c-web',ilha:'c-ilha',mor:'c-mor',mods:'c-mods',obs:'c-obs'},req:['nome','fed','pres','tel','email','ilha']},
+  oficial:{m:'m-oficial',col:'oficiais',title:'Registar Árbitro / Oficial',f:{nome:'o-nome',nasc:'o-nasc',tel:'o-tel',email:'o-email',func:'o-func',mod:'o-mod',cat:'o-cat',ilha:'o-ilha',lic:'o-lic'},req:['nome','nasc','func','mod']},
+  fed:{m:'m-fed',col:'federacoes',title:'Nova Federação Desportiva Nacional',f:{nome:'f-nome',mod:'f-mod',sig:'f-sig',ano:'f-ano',sede:'f-sede',mor:'f-mor',pres:'f-pres',sec:'f-sec',email:'f-email',tel:'f-tel',web:'f-web',afil:'f-int',desc:'f-desc'},req:['nome','mod','sig','sede','pres','email']},
+  assoc:{m:'m-assoc',col:'associacoes',title:'Nova Associação Regional',f:{nome:'as-nome',sig:'as-sig',fed:'as-fed',ilha:'as-ilha',pres:'as-pres',vp:'as-vp',email:'as-email',tel:'as-tel',sede:'as-sede',clubesTxt:'as-clubes'},req:['nome','fed','ilha','pres','email']},
+  comp:{m:'m-comp',col:'competicoes',title:'Nova Competição Oficial',f:{nome:'cp-nome',tipo:'cp-tipo',mod:'cp-mod',nivel:'cp-nivel',org:'cp-org',gen:'cp-gen',ini:'cp-ini',fim:'cp-fim',praz:'cp-praz',local:'cp-loc',min:'cp-min',equipas:'cp-max',fmt:'cp-fmt',estado:'cp-est',obs:'cp-obs'},req:['nome','tipo','mod','org','ini']},
+  trans:{m:'m-trans',col:'transferencias',title:'Nova Transferência',f:{atletaTxt:'t-atl',origem:'t-orig',tipo:'t-tipo',destino:'t-dest',pais:'t-pais',data:'t-data',menor:'t-menor',obs:'t-obs'},req:['atletaTxt','origem','destino']},
+  user:{m:'m-user',col:'utilizadores',title:'Novo Utilizador do Sistema',f:{nome:'u-nome',email:'u-email',role:'u-role',entidade:'u-ent'},req:['nome','email','role']},
+  lic:{m:'m-lic',col:'licencas',title:'Emitir Licença Desportiva',f:{titular:'l-tit',tipo:'l-tipo',epoca:'l-epoca',ini:'l-ini',validade:'l-val',ent:'l-ent'},req:['titular','tipo','epoca','ini','validade']},
+};
+const keyOfModal = m => Object.keys(FORMS).find(k=>FORMS[k].m===m);
+
+function setField(id, val){
+  const el=$(id); if(!el) return;
+  if(el.tagName==='SELECT'){ el.value=val??''; if(el.selectedIndex<0) el.selectedIndex=0; }
+  else el.value=val??'';
+  if($(id+'-chips')) document.querySelectorAll(`#${id}-chips .chip`).forEach(c=>c.classList.toggle('on', c.textContent===el.value));
+  if(id==='a-foto') fotoPreview();
+}
+function fillForm(key, obj){ Object.entries(FORMS[key].f).forEach(([k,id])=>setField(id, obj?.[k])); }
+function readForm(key){ const o={}; Object.entries(FORMS[key].f).forEach(([k,id])=>{ const el=$(id); if(el) o[k]=String(el.value).trim(); }); return o; }
+function clearErrors(m){ document.querySelectorAll(`#${m} .err`).forEach(e=>e.classList.remove('err')); }
+function check(key, d){
+  const F=FORMS[key]; clearErrors(F.m);
+  const miss=F.req.filter(k=>!d[k]);
+  miss.forEach(k=>{ const id=F.f[k]; ($(id+'-chips')||$(id))?.classList.add('err'); });
+  if(miss.length){ toast('⚠️','Campos obrigatórios em falta','Preencha os campos assinalados a vermelho'); return false; }
+  if(d.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)){ $(F.f.email)?.classList.add('err'); toast('⚠️','Email inválido','Verifique o endereço de email'); return false; }
+  return true;
+}
+
+function openModal(id){ $(id).classList.add('open'); setTimeout(()=>$(id).querySelector('input:not([type=hidden]),select')?.focus(),60); }
+function closeModal(id){
+  $(id).classList.remove('open'); editingId=null; clearErrors(id);
+  const k=keyOfModal(id); const t=$(id+'-title'); if(k && t) t.textContent=FORMS[k].title;
+}
+function openNew(m){
+  const k=keyOfModal(m); editingId=null;
+  if(k){ fillForm(k,{}); const t=$(m+'-title'); if(t) t.textContent=FORMS[k].title; clearErrors(m); }
+  if(m==='m-trans'){ setField('t-data',todayISO()); toggleITC(); }
+  if(m==='m-lic'){ setField('l-epoca',DB.config.epoca); setField('l-ini',todayISO()); setField('l-val',seasonEnd(DB.config.epoca)); }
+  if(m==='m-user'){ $('u-pass').value=''; $('u-pass2').value=''; $('u-pass-row').style.display=''; }
+  if(m==='m-comp') setField('cp-est','Inscrições Abertas');
+  openModal(m);
+}
+function openEdit(key, id){
+  const F=FORMS[key], o=find(F.col,id); if(!o) return;
+  editingId=id; clearErrors(F.m);
+  const v={...o};
+  if(key==='clube') v.tipo = o.tipo==='EID' ? 'Escola de Iniciação Desportiva (EID)' : 'Clube';
+  if(key==='comp'){ v.nivel = o.nivel==='nacional'?'Nacional':'Regional'; v.estado = EST_TXT[o.estado]||'Em curso'; }
+  if(key==='trans'){ v.atletaTxt=`${o.atleta} · ${o.licId}`; v.tipo=o.tipo==='internacional'?'Internacional':'Nacional'; v.menor=o.menor?'Sim':'Não'; }
+  fillForm(key, v);
+  if(key==='trans') toggleITC();
+  if(key==='user'){ $('u-pass-row').style.display='none'; }
+  const t=$(F.m+'-title'); if(t) t.textContent='Editar: '+(o.nome||o.atleta||o.titular||id);
+  openModal(F.m);
+}
+// compatibilidade com chamadas antigas
+const editAtleta=id=>openEdit('atleta',id), editClube=id=>openEdit('clube',id), editFed=id=>openEdit('fed',id), editAssoc=id=>openEdit('assoc',id), editComp=id=>openEdit('comp',id), editOficial=id=>openEdit('oficial',id), editTrans=id=>openEdit('trans',id), editUser=id=>openEdit('user',id);
+
+function addVal(tipo, entidade, submPor, ref, docs){
+  DB.validacoes.unshift({id:'VAL-'+pad(nextNum(DB.validacoes),3),tipo,entidade,submPor:submPor||'Admin',data:todayISO(),docs:docs||'—',ref});
+}
+function dropValFor(col,id){ DB.validacoes = DB.validacoes.filter(v=>!(v.ref && v.ref.col===col && v.ref.id===id)); }
+
+// ─── GUARDAR ───
+function saveAtleta(){
+  const d=readForm('atleta'); if(!check('atleta',d)) return;
+  const ag=age(d.nasc); if(ag===null || ag<4 || ag>80){ $('a-nasc').classList.add('err'); return toast('⚠️','Data de nascimento inválida','Verifique a data indicada'); }
+  const dup=DB.atletas.find(a=>a.docnum && a.docnum.toLowerCase()===d.docnum.toLowerCase() && a.id!==editingId);
+  if(dup){ $('a-docnum').classList.add('err'); return toast('⚠️','Documento já registado',`Pertence a ${dup.nome} (${dup.id})`); }
+  if(editingId){
+    Object.assign(find('atletas',editingId), d);
+    log(`Ficha de <b>${esc(d.nome)}</b> atualizada`,'ac'); toast('✅','Atleta atualizado','Dados guardados com sucesso');
+  } else {
+    const id=`LIC-${new Date().getFullYear()}-${pad(nextNum(DB.atletas),5)}`;
+    DB.atletas.unshift({id,...d,estado:'pendente',criado:Date.now()});
+    addVal('Atleta',`${d.nome} · ${id}`,d.clube,{col:'atletas',id},[d.doc,d.foto?'Fotografia':''].filter(Boolean).join(', '));
+    log(`Novo atleta <b>${esc(d.nome)}</b> submetido para validação`,'gd');
+    toast('✅','Atleta registado',`License ID ${id} · aguarda validação`);
+  }
+  closeModal('m-atleta'); commit();
+}
+function saveClube(){
+  const d=readForm('clube'); if(!check('clube',d)) return;
+  d.tipo = d.tipo.includes('EID') ? 'EID' : 'Clube';
+  if(DB.clubes.find(c=>norm(c.nome)===norm(d.nome) && c.id!==editingId)) return toast('⚠️','Nome duplicado','Já existe uma entidade com este nome');
+  if(editingId){
+    const c=find('clubes',editingId), old=c.nome;
+    Object.assign(c,d);
+    if(old!==d.nome){ DB.atletas.forEach(a=>{ if(a.clube===old) a.clube=d.nome; }); DB.licencas.forEach(l=>{ if(l.ent===old) l.ent=d.nome; }); }
+    log(`Entidade <b>${esc(d.nome)}</b> atualizada`); toast('✅','Entidade atualizada','Dados guardados com sucesso');
+  } else {
+    const p=d.tipo==='EID'?'EID':'CLB', id=`${p}-${pad(nextNum(DB.clubes.filter(c=>c.id.startsWith(p))),3)}`;
+    DB.clubes.push({id,...d,sig:d.sig||d.nome.slice(0,3).toUpperCase(),estado:'pendente'});
+    addVal('Clube',`${d.nome} · ${id}`,'Autossubmissão',{col:'clubes',id},'Estatutos, Identificação');
+    log(`Novo pedido de registo: <b>${esc(d.nome)}</b>`); toast('✅','Pedido submetido','Aguarda validação do administrador');
+  }
+  closeModal('m-clube'); commit();
+}
+function saveOficial(){
+  const d=readForm('oficial'); if(!check('oficial',d)) return;
+  if(editingId){ Object.assign(find('oficiais',editingId),d); toast('✅','Oficial atualizado','Dados guardados'); }
+  else {
+    const p=d.func.startsWith('Árbitro')?'ARB':d.func.startsWith('Treinador')?'TRN':'OFI', id=`${p}-${pad(nextNum(DB.oficiais),3)}`;
+    DB.oficiais.push({id,...d,estado:'ativo'}); log(`Novo oficial registado: <b>${esc(d.nome)}</b> (${esc(d.func)})`,'gn'); toast('✅','Oficial registado',id);
+  }
+  closeModal('m-oficial'); commit();
+}
+function saveFed(){
+  const d=readForm('fed'); if(!check('fed',d)) return;
+  if(editingId){
+    const f=find('federacoes',editingId), old=f.nome; Object.assign(f,d);
+    if(old!==d.nome){ DB.clubes.forEach(c=>{ if(c.fed===old) c.fed=d.nome; }); DB.associacoes.forEach(a=>{ if(a.fed===old) a.fed=d.nome; }); DB.competicoes.forEach(c=>{ if(c.org===old) c.org=d.nome; }); }
+    toast('✅','Federação atualizada','Dados guardados com sucesso');
+  } else {
+    const id='FED-'+pad(nextNum(DB.federacoes),3);
+    DB.federacoes.push({id,...d,estado:'pendente'}); addVal('Federação',`${d.nome} · ${id}`,'Admin',{col:'federacoes',id},'Estatutos');
+    log(`Nova federação submetida: <b>${esc(d.nome)}</b>`); toast('✅','Federação registada','Aguarda validação');
+  }
+  closeModal('m-fed'); commit();
+}
+function saveAssoc(){
+  const d=readForm('assoc'); if(!check('assoc',d)) return;
+  if(editingId){ const a=find('associacoes',editingId), old=a.nome; Object.assign(a,d); if(old!==d.nome) DB.competicoes.forEach(c=>{ if(c.org===old) c.org=d.nome; }); toast('✅','Associação atualizada','Dados guardados'); }
+  else {
+    const id='ASS-'+pad(nextNum(DB.associacoes),3);
+    DB.associacoes.push({id,...d,estado:'pendente'}); addVal('Associação',`${d.nome} · ${id}`,'Admin',{col:'associacoes',id},'Estatutos');
+    log(`Nova associação submetida: <b>${esc(d.nome)}</b>`); toast('✅','Associação registada','Aguarda validação');
+  }
+  closeModal('m-assoc'); commit();
+}
+function saveComp(){
+  const d=readForm('comp'); if(!check('comp',d)) return;
+  if(d.fim && d.fim<d.ini){ $('cp-fim').classList.add('err'); return toast('⚠️','Datas incoerentes','A data de fim é anterior ao início'); }
+  if(d.praz && d.praz>d.ini){ $('cp-praz').classList.add('err'); return toast('⚠️','Prazo inválido','O prazo de inscrições deve terminar antes do início'); }
+  d.nivel=d.nivel.toLowerCase(); d.estado=EST_MAP[d.estado]||'inscricoes'; d.equipas=parseInt(d.equipas,10)||0; d.min=parseInt(d.min,10)||'';
+  if(d.min && d.equipas && d.min>d.equipas){ $('cp-min').classList.add('err'); return toast('⚠️','Nº de equipas incoerente','O mínimo é superior ao máximo'); }
+  if(editingId){ Object.assign(find('competicoes',editingId),d); toast('✅','Competição atualizada','Dados guardados'); }
+  else { const id='CMP-'+pad(nextNum(DB.competicoes),3); DB.competicoes.unshift({id,...d}); log(`Nova competição: <b>${esc(d.nome)}</b>`,'gn'); toast('🏆','Competição criada',id); }
+  closeModal('m-comp'); commit();
+}
+function setCompEstado(id, est){
+  const c=find('competicoes',id); if(!c) return; c.estado=est;
+  log(`<b>${esc(c.nome)}</b> — ${({inscricoes:'inscrições abertas',ativo:'competição iniciada',concluida:'competição concluída'})[est]}`,'gn');
+  commit(); showDetail('comp',id);
+}
+function parseAtleta(txt){
+  const m=String(txt).match(/(LIC-\d{4}-\d+)/); if(m) return find('atletas',m[1]);
+  return DB.atletas.find(a=>norm(a.nome)===norm(txt));
+}
+function transAtlChange(){
+  const a=parseAtleta($('t-atl').value); if(!a) return;
+  setField('t-orig',a.clube); const ag=age(a.nasc); if(ag!==null) setField('t-menor', ag<18?'Sim':'Não');
+}
+function openTransFor(id){ const a=find('atletas',id); openNew('m-trans'); if(a){ $('t-atl').value=`${a.nome} · ${a.id}`; transAtlChange(); } }
+function saveTrans(){
+  const d=readForm('trans'); if(!check('trans',d)) return;
+  const a=parseAtleta(d.atletaTxt);
+  if(!a){ $('t-atl').classList.add('err'); return toast('⚠️','Atleta não encontrado','Escolha um atleta da lista de sugestões'); }
+  const tipo=d.tipo.toLowerCase();
+  if(tipo==='internacional' && !d.pais){ $('t-pais').classList.add('err'); return toast('⚠️','País em falta','Indique o país de destino'); }
+  const destino = tipo==='internacional' ? `${d.destino} (${d.pais})` : d.destino;
+  if(norm(destino)===norm(d.origem)) return toast('⚠️','Destino inválido','O clube de destino é igual ao de origem');
+  const ag=age(a.nasc), menor = ag!==null ? ag<18 : d.menor==='Sim';
+  if(editingId){
+    Object.assign(find('transferencias',editingId),{atleta:a.nome,licId:a.id,origem:d.origem,destino,tipo,menor,data:d.data,obs:d.obs});
+    toast('✅','Transferência atualizada','Dados guardados');
+  } else {
+    if(DB.transferencias.find(t=>t.licId===a.id && t.estado==='pendente')) return toast('⚠️','Já existe um pedido pendente',`${a.nome} tem uma transferência por decidir`);
+    const id='TRF-'+pad(nextNum(DB.transferencias),3);
+    DB.transferencias.unshift({id,atleta:a.nome,licId:a.id,origem:d.origem,destino,tipo,menor,estado:'pendente',data:d.data||todayISO(),obs:d.obs});
+    a.estado='transferencia';
+    if(tipo==='internacional') addVal('ITC',`${a.nome} → ${destino}`,d.origem,{col:'transferencias',id},'Contrato, Passaporte');
+    log(tipo==='internacional'?`ITC solicitado — <b>${esc(a.nome)}</b> para ${esc(d.pais)}`:`Pedido de transferência — <b>${esc(a.nome)}</b> para ${esc(destino)}`,'gd');
+    toast('✅','Pedido submetido', menor?'Atleta menor: anexar autorização parental':'Aguarda análise da federação');
+  }
+  closeModal('m-trans'); commit();
+}
+function saveUser(){
+  const d=readForm('user'); if(!check('user',d)) return;
+  if(DB.utilizadores.find(u=>u.email.toLowerCase()===d.email.toLowerCase() && u.id!==editingId)) return toast('⚠️','Email já utilizado','Existe outro utilizador com este email');
+  if(editingId){ Object.assign(find('utilizadores',editingId),d); toast('✅','Utilizador atualizado','Dados guardados'); }
+  else {
+    const p1=$('u-pass').value, p2=$('u-pass2').value;
+    if(p1.length<8){ $('u-pass').classList.add('err'); return toast('⚠️','Palavra-passe fraca','Mínimo de 8 caracteres'); }
+    if(p1!==p2){ $('u-pass2').classList.add('err'); return toast('⚠️','Palavras-passe diferentes','Confirme a palavra-passe'); }
+    // NOTA: a palavra-passe NÃO é guardada — a autenticação real exige backend (ex.: Firebase Auth)
+    DB.utilizadores.push({id:'USR-'+pad(nextNum(DB.utilizadores),3),...d,acesso:'Nunca',estado:'ativo'});
+    log(`Novo utilizador: <b>${esc(d.nome)}</b> (${esc(d.role)})`); toast('✅','Utilizador criado','Envio de credenciais requer backend (fase 2)');
+  }
+  $('u-pass').value=''; $('u-pass2').value='';
+  closeModal('m-user'); commit();
+}
+function licTitChange(){
+  const n=$('l-tit').value, a=DB.atletas.find(x=>x.nome===n), o=DB.oficiais.find(x=>x.nome===n);
+  if(a){ setField('l-ent',a.clube); const ag=age(a.nasc); setField('l-tipo', ag===null?'Atleta Sénior':ag<14?'Atleta Iniciado':ag<18?'Atleta Júnior':'Atleta Sénior'); }
+  else if(o){ setField('l-tipo', o.func.startsWith('Árbitro')?'Árbitro':o.func.startsWith('Treinador')?'Treinador':'Oficial'); setField('l-ent',''); }
+}
+function licPrefix(tipo){ return tipo.startsWith('Atleta')?'A':tipo==='Treinador'?'T':tipo==='Árbitro'?'ARB':'O'; }
+function saveLic(){
+  const d=readForm('lic'); if(!check('lic',d)) return;
+  if(!DB.atletas.find(a=>a.nome===d.titular) && !DB.oficiais.find(o=>o.nome===d.titular)){ $('l-tit').classList.add('err'); return toast('⚠️','Titular não encontrado','Escolha um atleta ou oficial registado'); }
+  if(d.validade<=d.ini){ $('l-val').classList.add('err'); return toast('⚠️','Validade incoerente','A validade tem de ser posterior ao início'); }
+  if(DB.licencas.find(l=>l.titular===d.titular && l.epoca===d.epoca && l.tipo===d.tipo && l.id!==editingId)) return toast('⚠️','Licença duplicada','Já existe esta licença para a época');
+  const id=`LIC-${licPrefix(d.tipo)}-${pad(nextNum(DB.licencas),3)}`;
+  DB.licencas.unshift({id,...d,estado:'ativo'});
+  log(`Licença emitida — <b>${esc(d.titular)}</b> (${esc(d.tipo)}, ${esc(d.epoca)})`,'gn');
+  toast('📋','Licença emitida',id); closeModal('m-lic'); commit();
+}
+function renovarLic(id){
+  const l=find('licencas',id); if(!l) return;
+  const nova = l.epoca < DB.config.epoca ? DB.config.epoca : seasonNext(l.epoca);
+  if(DB.licencas.find(x=>x.titular===l.titular && x.tipo===l.tipo && x.epoca===nova)) return toast('ℹ️','Já renovada',`Existe licença para ${nova}`);
+  DB.licencas.unshift({...l,id:`LIC-${licPrefix(l.tipo)}-${pad(nextNum(DB.licencas),3)}`,epoca:nova,ini:todayISO(),validade:seasonEnd(nova),estado:'ativo'});
+  log(`Licença renovada — <b>${esc(l.titular)}</b> para ${nova}`,'gn'); toast('♻','Licença renovada',`Época ${nova}`); commit();
+}
+function printLic(id){
+  const l=find('licencas',id); if(!l) return;
+  const a=DB.atletas.find(x=>x.nome===l.titular), cfg=DB.config;
+  const w=window.open('','_blank'); if(!w) return toast('⚠️','Janela bloqueada','Permita pop-ups para gerar o PDF');
+  w.document.write(`<!doctype html><html lang="pt"><head><meta charset="utf-8"><title>Licença ${esc(l.id)}</title><style>body{font-family:Arial,sans-serif;display:flex;justify-content:center;padding:40px;color:#0b1a2e}.c{width:340px;border:2px solid #003893;border-radius:12px;overflow:hidden}.h{background:#003893;color:#fff;padding:14px 18px}.h b{font-size:20px;letter-spacing:2px}.h small{display:block;font-size:10px;letter-spacing:1.5px;opacity:.8;margin-top:2px}.f{height:5px;background:linear-gradient(90deg,#003893 55%,#fff 55% 63%,#cf2027 63% 71%,#fff 71% 79%,#003893 79%)}.b{padding:16px 18px}.r{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px solid #e3e8f0}.r span{color:#667}.n{font-size:18px;font-weight:700;margin-bottom:10px}.id{font-family:monospace;font-size:13px;margin-top:12px;text-align:center;letter-spacing:1px}@media print{body{padding:0}}</style></head><body><div class="c"><div class="h"><b>${esc(cfg.nome).toUpperCase()}</b><small>LICENÇA DESPORTIVA · ${esc(cfg.pais).toUpperCase()}</small></div><div class="f"></div><div class="b"><div class="n">${esc(l.titular)}</div>
+    <div class="r"><span>Tipo</span><b>${esc(l.tipo)}</b></div><div class="r"><span>Época</span><b>${esc(l.epoca)}</b></div><div class="r"><span>Entidade</span><b>${esc(l.ent||'—')}</b></div>${a?`<div class="r"><span>Modalidade</span><b>${esc(a.mod)}</b></div><div class="r"><span>Nascimento</span><b>${fmtDate(a.nasc)}</b></div>`:''}<div class="r"><span>Válida até</span><b>${fmtDate(l.validade)}</b></div><div class="id">${esc(l.id)}${a?' · '+a.id:''}</div></div></div><script>window.onload=()=>window.print()<\/script></body></html>`);
+  w.document.close();
+}
+
+// ─── DECISÕES ───
+function approveEntity(ref){
+  if(!ref) return;
+  if(ref.col==='transferencias'){ aprovarTrans(ref.id,true); return; }
+  const e=find(ref.col,ref.id); if(!e) return;
+  e.estado='ativo';
+  if(ref.col==='atletas' && !DB.licencas.find(l=>l.titular===e.nome && l.epoca===DB.config.epoca)){
+    const ag=age(e.nasc), tipo=ag!==null&&ag<14?'Atleta Iniciado':ag!==null&&ag<18?'Atleta Júnior':'Atleta Sénior';
+    DB.licencas.unshift({id:`LIC-A-${pad(nextNum(DB.licencas),3)}`,titular:e.nome,tipo,epoca:DB.config.epoca,ini:todayISO(),validade:seasonEnd(DB.config.epoca),ent:e.clube,estado:'ativo'});
+  }
+}
+function aprovarVal(id){
+  const v=find('validacoes',id); if(!v) return;
+  approveEntity(v.ref); DB.validacoes=DB.validacoes.filter(x=>x.id!==id);
+  log(`${esc(v.tipo)} aprovado — <b>${esc(v.entidade)}</b>`,'gn');
+  toast('✅','Aprovado', v.ref?.col==='atletas'?'Registo validado e licença emitida':'Registo validado'); commit();
+}
+function recusarVal(id){
+  const v=find('validacoes',id); if(!v) return;
+  if(!confirm(`Recusar o pedido "${v.entidade}"?`)) return;
+  if(v.ref?.col==='transferencias') recusarTrans(v.ref.id,true);
+  else if(v.ref){ const e=find(v.ref.col,v.ref.id); if(e) e.estado='recusado'; }
+  DB.validacoes=DB.validacoes.filter(x=>x.id!==id);
+  log(`${esc(v.tipo)} recusado — <b>${esc(v.entidade)}</b>`,'rd'); toast('❌','Recusado','Pedido arquivado'); commit();
+}
+function aprovarTrans(id, silent){
+  const t=find('transferencias',id); if(!t) return;
+  t.estado='aprovado'; dropValFor('transferencias',id);
+  const a=find('atletas',t.licId);
+  if(a){ if(t.tipo==='nacional'){ a.clube=t.destino; a.estado='ativo'; } else a.estado='transferido'; }
+  log(`Transferência aprovada — <b>${esc(t.atleta)}</b> para ${esc(t.destino)}`,'gn');
+  if(!silent){ toast('✅','Transferência aprovada', t.tipo==='internacional'?'ITC emitido':'Atleta inscrito no novo clube'); commit(); }
+}
+function recusarTrans(id, silent){
+  const t=find('transferencias',id); if(!t) return;
+  t.estado='recusado'; dropValFor('transferencias',id);
+  const a=find('atletas',t.licId); if(a && a.estado==='transferencia') a.estado='ativo';
+  log(`Transferência recusada — <b>${esc(t.atleta)}</b>`,'rd');
+  if(!silent){ toast('❌','Transferência recusada','Atleta mantém-se no clube de origem'); commit(); }
+}
+function deleteItem(type, id){
+  const map={atleta:'atletas',clube:'clubes',oficial:'oficiais',fed:'federacoes',assoc:'associacoes',user:'utilizadores',comp:'competicoes',trans:'transferencias',lic:'licencas'};
+  const col=map[type], e=find(col,id); if(!e) return;
+  if(type==='clube' && clubCount(e.nome)) return toast('⛔','Não é possível remover',`${e.nome} tem ${clubCount(e.nome)} atletas associados`);
+  if(type==='fed' && fedCount(e.nome)) return toast('⛔','Não é possível remover',`A federação tem ${fedCount(e.nome)} clubes filiados`);
+  if(!confirm(`Remover definitivamente "${e.nome||e.atleta||e.titular||id}"?`)) return;
+  DB[col]=DB[col].filter(x=>x.id!==id); dropValFor(col,id);
+  if(type==='trans'){ const a=find('atletas',e.licId); if(a && a.estado==='transferencia') a.estado='ativo'; }
+  log(`Registo removido: <b>${esc(e.nome||e.atleta||e.titular||id)}</b>`,'rd');
+  closeDetail(); toast('🗑','Registo removido','O item foi eliminado'); commit();
+}
+
+// ─── EXPORTAÇÃO / CÓPIAS ───
+const CSV_DEFS = {
+  atletas:[['id','License ID'],['nome','Nome'],['gen','Género'],['nasc','Nascimento'],[a=>escalao(age(a.nasc)),'Escalão'],['clube','Clube'],['mod','Modalidade'],['ilha','Ilha'],['docnum','Nº Documento'],['estado','Estado']],
+  clubes:[['id','ID'],['nome','Nome'],['tipo','Tipo'],['fed','Federação'],['ilha','Ilha'],['pres','Presidente'],['email','Email'],[c=>clubCount(c.nome),'Atletas'],['estado','Estado']],
+  competicoes:[['id','ID'],['nome','Competição'],['tipo','Tipo'],['mod','Modalidade'],['nivel','Nível'],['org','Organizador'],['gen','Género'],['local','Local'],['ini','Início'],['fim','Fim'],['equipas','Equipas'],[c=>EST_TXT[c.estado]||c.estado,'Estado']],
+};
+function toCSV(rows){ return '\ufeff'+rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(';')).join('\r\n'); }
+function exportCSV(kind){
+  let rows;
+  if(kind==='relatorio'){
+    const r=reportData();
+    rows=[['Relatório SportCV',DB.config.epoca],['Gerado em',fmtDate(todayISO())],[],['Indicador','Valor'],['Atletas ativos',r.A.length],['Masculinos',r.m],['Femininas',r.f],['Média por clube',r.avg],[],['Modalidade','Atletas'],...r.mods,[],['Ilha','Atletas'],...r.ilhas,[],['Escalão','Atletas'],...r.esc];
+  } else {
+    const cols=CSV_DEFS[kind]; rows=[cols.map(c=>c[1]), ...DB[kind].map(x=>cols.map(c=>typeof c[0]==='function'?c[0](x):x[c[0]]))];
+  }
+  download(`sportcv_${kind}_${todayISO()}.csv`, toCSV(rows), 'text/csv;charset=utf-8');
+  toast('⬇','Exportação concluída','Ficheiro CSV pronto a abrir no Excel');
+}
+function exportJSON(){ download(`sportcv_copia_${todayISO()}.json`, JSON.stringify(DB,null,1), 'application/json'); toast('⬇','Cópia exportada','Guarde o ficheiro num local seguro'); }
+function importJSON(inp){
+  const f=inp.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{ try{ const d=JSON.parse(rd.result); if(d._v!==2 || !Array.isArray(d.atletas)) throw 0; if(!confirm('Substituir todos os dados atuais pela cópia importada?')) return; DB=d; commit(); toast('✅','Cópia importada',`${d.atletas.length} atletas carregados`); } catch(e){ toast('⚠️','Ficheiro inválido','Não é uma cópia SportCV v2'); } inp.value=''; };
+  rd.readAsText(f);
+}
+function resetDemo(){ if(!confirm('Apagar os dados guardados neste navegador e repor a demonstração?')) return; DB=buildSeed(); commit(); toast('↺','Demonstração reposta','Dados de exemplo carregados'); }
+
+// ─── CONFIGURAÇÕES ───
+function loadConfig(){ const c=DB.config; setField('cfg-nome',c.nome); setField('cfg-pais',c.pais); setField('cfg-email',c.email); setField('cfg-epoca',c.epoca); ['n1','n2','n3'].forEach(k=>{ const e=$('cfg-'+k); if(e) e.checked=!!c[k]; }); }
+function saveConfig(){
+  const ep=$('cfg-epoca').value.trim();
+  const m=ep.match(/^(\d{4})\/(\d{4})$/);
+  if(!m || +m[2]!==+m[1]+1){ $('cfg-epoca').classList.add('err'); return toast('⚠️','Época inválida','Use o formato 2026/2027'); }
+  $('cfg-epoca').classList.remove('err');
+  Object.assign(DB.config,{nome:$('cfg-nome').value.trim()||'SportCV',pais:$('cfg-pais').value.trim(),email:$('cfg-email').value.trim(),epoca:ep,n1:$('cfg-n1').checked,n2:$('cfg-n2').checked,n3:$('cfg-n3').checked});
+  toast('✅','Configurações guardadas','As alterações foram aplicadas'); commit();
+}
+
+// ─── FOTOGRAFIA (redimensionada para não sobrecarregar o armazenamento) ───
+function loadFoto(inp){
+  const f=inp.files[0]; inp.value=''; if(!f) return;
+  if(!/^image\//.test(f.type)) return toast('⚠️','Formato inválido','Use JPG ou PNG');
+  if(f.size>5*1024*1024) return toast('⚠️','Imagem demasiado grande','Máximo 5 MB');
+  const img=new Image(); img.onload=()=>{ const s=160,c=document.createElement('canvas'); c.width=c.height=s; const k=Math.max(s/img.width,s/img.height),w=img.width*k,h=img.height*k; c.getContext('2d').drawImage(img,(s-w)/2,(s-h)/2,w,h); $('a-foto').value=c.toDataURL('image/jpeg',.8); fotoPreview(); URL.revokeObjectURL(img.src); };
+  img.src=URL.createObjectURL(f);
+}
+function fotoPreview(){ const v=$('a-foto')?.value, p=$('a-foto-prev'), t=$('a-foto-txt'); if(!p) return; p.style.display=v?'block':'none'; p.style.backgroundImage=v?`url('${v}')`:''; if(t) t.textContent=v?'📷 Fotografia carregada — clique para substituir':'📷 Clique para carregar fotografia (JPG/PNG)'; }
+
+// ─── PESQUISA GLOBAL ───
+let gsResults=[], gsSel=0;
+function globalSearch(v){
+  const box=$('gs-res'), q=norm(v.trim());
+  if(q.length<2){ box.classList.remove('open'); gsResults=[]; return; }
+  const r=[], add=(ic,t,s,go)=>r.push({ic,t,s,go});
+  DB.atletas.forEach(a=>{ if(norm(`${a.nome} ${a.id} ${a.clube} ${a.docnum}`).includes(q)) add('👤',a.nome,`${a.id} · ${a.clube}`,()=>{navTo('atletas');showDetail('atleta',a.id);}); });
+  DB.clubes.forEach(c=>{ if(norm(`${c.nome} ${c.sig} ${c.id}`).includes(q)) add('🏛',c.nome,`${c.tipo} · ${c.ilha}`,()=>{navTo('clubes');showDetail('clube',c.id);}); });
+  DB.oficiais.forEach(o=>{ if(norm(`${o.nome} ${o.id}`).includes(q)) add('🟡',o.nome,`${o.func} · ${o.mod}`,()=>{navTo('oficiais');showDetail('oficial',o.id);}); });
+  DB.federacoes.forEach(f=>{ if(norm(`${f.nome} ${f.sig}`).includes(q)) add('🏅',f.nome,f.sig,()=>{navTo('federacoes');showDetail('federacao',f.id);}); });
+  DB.competicoes.forEach(c=>{ if(norm(`${c.nome} ${c.mod}`).includes(q)) add('🏆',c.nome,`${c.mod} · ${EST_TXT[c.estado]||c.estado}`,()=>{navTo('competicoes');showDetail('comp',c.id);}); });
+  gsResults=r.slice(0,8); gsSel=0;
+  box.innerHTML = gsResults.length ? gsResults.map((x,i)=>`<div class="gs-i${i===0?' sel':''}" onmousedown="gsGo(${i})"><span class="gs-ic">${x.ic}</span><div style="min-width:0"><div class="gs-t">${esc(x.t)}</div><div class="gs-s">${esc(x.s)}</div></div></div>`).join('') + (r.length>8?`<div class="gs-e">+ ${r.length-8} resultados — refine a pesquisa</div>`:'') : '<div class="gs-e">Sem resultados</div>';
+  box.classList.add('open');
+}
+function gsGo(i){ const x=gsResults[i]; if(!x) return; $('gs-res').classList.remove('open'); $('gs-input').value=''; $('gs-input').blur(); x.go(); }
+function gsKey(e){
+  const items=document.querySelectorAll('#gs-res .gs-i'); if(!items.length) return;
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); gsSel=(gsSel+(e.key==='ArrowDown'?1:-1)+items.length)%items.length; items.forEach((it,i)=>it.classList.toggle('sel',i===gsSel)); }
+  if(e.key==='Enter') gsGo(gsSel);
+}
+
+// ─── DIVERSOS ───
+function selChip(el, hiddenId){
+  el.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('on')); el.classList.add('on');
+  el.parentElement.classList.remove('err'); const h=$(hiddenId); if(h) h.value=el.textContent;
+}
+function tabFilter(type, filter, el){
+  el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); el.classList.add('active');
+  if(type==='atl') renderAtletas(filter); if(type==='comp') renderComps(filter); if(type==='trans') renderTransferencias(filter);
+}
+function toggleITC(){
+  const intl=$('t-tipo').value==='Internacional';
+  $('t-pais-row').style.display=intl?'grid':'none'; $('t-itc-warn').style.display=intl?'block':'none';
+}
+let toastTimer;
+function toast(icon, title, sub){
+  const t=$('toast'); $('toast-i').textContent=icon; $('toast-t').textContent=title; $('toast-s').textContent=sub||'';
+  t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+// ─── EVENTOS GLOBAIS ───
+document.querySelectorAll('.ov').forEach(ov=>ov.addEventListener('mousedown',e=>{ if(e.target===ov) closeModal(ov.id); }));
+document.querySelectorAll('.fi').forEach(el=>el.addEventListener('input',()=>el.classList.remove('err')));
+document.querySelectorAll('.ni,.tab,.plnk').forEach(n=>{ n.tabIndex=0; n.setAttribute('role','button'); n.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); n.click(); } }); });
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape') return;
+  const open=document.querySelector('.ov.open'); if(open) return closeModal(open.id);
+  if($('gs-res').classList.contains('open')) return $('gs-res').classList.remove('open');
+  closeDetail(); toggleSb(false);
+});
+document.addEventListener('click',e=>{ if(!e.target.closest('.sbox')) $('gs-res').classList.remove('open'); });
+window.addEventListener('storage',e=>{ if(e.key===STORE_KEY){ DB=load(); refreshAll(); } }); // sincroniza separadores abertos
+
+// ─── ARRANQUE ───
+save();
+updateCounters(); fillSelects();
+nav(null, (location.hash||'').slice(1) || 'dashboard');
+
+</script>
+</body>
+</html>
